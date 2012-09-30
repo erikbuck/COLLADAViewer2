@@ -1,0 +1,334 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		039A6D171618989500E1CF19 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 039A6D161618989500E1CF19 /* Cocoa.framework */; };
+		039A6D211618989500E1CF19 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 039A6D1F1618989500E1CF19 /* InfoPlist.strings */; };
+		039A6D231618989500E1CF19 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 039A6D221618989500E1CF19 /* main.m */; };
+		039A6D271618989500E1CF19 /* Credits.rtf in Resources */ = {isa = PBXBuildFile; fileRef = 039A6D251618989500E1CF19 /* Credits.rtf */; };
+		039A6D2A1618989500E1CF19 /* CVDocument.m in Sources */ = {isa = PBXBuildFile; fileRef = 039A6D291618989500E1CF19 /* CVDocument.m */; };
+		039A6D2D1618989500E1CF19 /* CVDocument.xib in Resources */ = {isa = PBXBuildFile; fileRef = 039A6D2B1618989500E1CF19 /* CVDocument.xib */; };
+		039A6D301618989500E1CF19 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 039A6D2E1618989500E1CF19 /* MainMenu.xib */; };
+		039A6D331618989500E1CF19 /* CVDocument.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 039A6D311618989500E1CF19 /* CVDocument.xcdatamodeld */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		039A6D121618989500E1CF19 /* COLLADAViewer2.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = COLLADAViewer2.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		039A6D161618989500E1CF19 /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
+		039A6D191618989500E1CF19 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
+		039A6D1A1618989500E1CF19 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
+		039A6D1B1618989500E1CF19 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		039A6D1E1618989500E1CF19 /* COLLADAViewer2-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "COLLADAViewer2-Info.plist"; sourceTree = "<group>"; };
+		039A6D201618989500E1CF19 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		039A6D221618989500E1CF19 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		039A6D241618989500E1CF19 /* COLLADAViewer2-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "COLLADAViewer2-Prefix.pch"; sourceTree = "<group>"; };
+		039A6D261618989500E1CF19 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; name = en; path = en.lproj/Credits.rtf; sourceTree = "<group>"; };
+		039A6D281618989500E1CF19 /* CVDocument.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CVDocument.h; sourceTree = "<group>"; };
+		039A6D291618989500E1CF19 /* CVDocument.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CVDocument.m; sourceTree = "<group>"; };
+		039A6D2C1618989500E1CF19 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/CVDocument.xib; sourceTree = "<group>"; };
+		039A6D2F1618989500E1CF19 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/MainMenu.xib; sourceTree = "<group>"; };
+		039A6D321618989500E1CF19 /* CVDocument.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = CVDocument.xcdatamodel; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		039A6D0F1618989500E1CF19 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				039A6D171618989500E1CF19 /* Cocoa.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		039A6D071618989500E1CF19 = {
+			isa = PBXGroup;
+			children = (
+				039A6D1C1618989500E1CF19 /* COLLADAViewer2 */,
+				039A6D151618989500E1CF19 /* Frameworks */,
+				039A6D131618989500E1CF19 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		039A6D131618989500E1CF19 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				039A6D121618989500E1CF19 /* COLLADAViewer2.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		039A6D151618989500E1CF19 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				039A6D161618989500E1CF19 /* Cocoa.framework */,
+				039A6D181618989500E1CF19 /* Other Frameworks */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		039A6D181618989500E1CF19 /* Other Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				039A6D191618989500E1CF19 /* AppKit.framework */,
+				039A6D1A1618989500E1CF19 /* CoreData.framework */,
+				039A6D1B1618989500E1CF19 /* Foundation.framework */,
+			);
+			name = "Other Frameworks";
+			sourceTree = "<group>";
+		};
+		039A6D1C1618989500E1CF19 /* COLLADAViewer2 */ = {
+			isa = PBXGroup;
+			children = (
+				039A6D281618989500E1CF19 /* CVDocument.h */,
+				039A6D291618989500E1CF19 /* CVDocument.m */,
+				039A6D2B1618989500E1CF19 /* CVDocument.xib */,
+				039A6D2E1618989500E1CF19 /* MainMenu.xib */,
+				039A6D311618989500E1CF19 /* CVDocument.xcdatamodeld */,
+				039A6D1D1618989500E1CF19 /* Supporting Files */,
+			);
+			path = COLLADAViewer2;
+			sourceTree = "<group>";
+		};
+		039A6D1D1618989500E1CF19 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				039A6D1E1618989500E1CF19 /* COLLADAViewer2-Info.plist */,
+				039A6D1F1618989500E1CF19 /* InfoPlist.strings */,
+				039A6D221618989500E1CF19 /* main.m */,
+				039A6D241618989500E1CF19 /* COLLADAViewer2-Prefix.pch */,
+				039A6D251618989500E1CF19 /* Credits.rtf */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		039A6D111618989500E1CF19 /* COLLADAViewer2 */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 039A6D361618989500E1CF19 /* Build configuration list for PBXNativeTarget "COLLADAViewer2" */;
+			buildPhases = (
+				039A6D0E1618989500E1CF19 /* Sources */,
+				039A6D0F1618989500E1CF19 /* Frameworks */,
+				039A6D101618989500E1CF19 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = COLLADAViewer2;
+			productName = COLLADAViewer2;
+			productReference = 039A6D121618989500E1CF19 /* COLLADAViewer2.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		039A6D091618989500E1CF19 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				CLASSPREFIX = CV;
+				LastUpgradeCheck = 0450;
+				ORGANIZATIONNAME = "Erik Buck";
+			};
+			buildConfigurationList = 039A6D0C1618989500E1CF19 /* Build configuration list for PBXProject "COLLADAViewer2" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = 039A6D071618989500E1CF19;
+			productRefGroup = 039A6D131618989500E1CF19 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				039A6D111618989500E1CF19 /* COLLADAViewer2 */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		039A6D101618989500E1CF19 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				039A6D211618989500E1CF19 /* InfoPlist.strings in Resources */,
+				039A6D271618989500E1CF19 /* Credits.rtf in Resources */,
+				039A6D2D1618989500E1CF19 /* CVDocument.xib in Resources */,
+				039A6D301618989500E1CF19 /* MainMenu.xib in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		039A6D0E1618989500E1CF19 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				039A6D231618989500E1CF19 /* main.m in Sources */,
+				039A6D2A1618989500E1CF19 /* CVDocument.m in Sources */,
+				039A6D331618989500E1CF19 /* CVDocument.xcdatamodeld in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXVariantGroup section */
+		039A6D1F1618989500E1CF19 /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				039A6D201618989500E1CF19 /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+		039A6D251618989500E1CF19 /* Credits.rtf */ = {
+			isa = PBXVariantGroup;
+			children = (
+				039A6D261618989500E1CF19 /* en */,
+			);
+			name = Credits.rtf;
+			sourceTree = "<group>";
+		};
+		039A6D2B1618989500E1CF19 /* CVDocument.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				039A6D2C1618989500E1CF19 /* en */,
+			);
+			name = CVDocument.xib;
+			sourceTree = "<group>";
+		};
+		039A6D2E1618989500E1CF19 /* MainMenu.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				039A6D2F1618989500E1CF19 /* en */,
+			);
+			name = MainMenu.xib;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		039A6D341618989500E1CF19 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.8;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = macosx;
+			};
+			name = Debug;
+		};
+		039A6D351618989500E1CF19 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.8;
+				SDKROOT = macosx;
+			};
+			name = Release;
+		};
+		039A6D371618989500E1CF19 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COMBINE_HIDPI_IMAGES = YES;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "COLLADAViewer2/COLLADAViewer2-Prefix.pch";
+				INFOPLIST_FILE = "COLLADAViewer2/COLLADAViewer2-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = app;
+			};
+			name = Debug;
+		};
+		039A6D381618989500E1CF19 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COMBINE_HIDPI_IMAGES = YES;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "COLLADAViewer2/COLLADAViewer2-Prefix.pch";
+				INFOPLIST_FILE = "COLLADAViewer2/COLLADAViewer2-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = app;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		039A6D0C1618989500E1CF19 /* Build configuration list for PBXProject "COLLADAViewer2" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				039A6D341618989500E1CF19 /* Debug */,
+				039A6D351618989500E1CF19 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		039A6D361618989500E1CF19 /* Build configuration list for PBXNativeTarget "COLLADAViewer2" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				039A6D371618989500E1CF19 /* Debug */,
+				039A6D381618989500E1CF19 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+/* End XCConfigurationList section */
+
+/* Begin XCVersionGroup section */
+		039A6D311618989500E1CF19 /* CVDocument.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				039A6D321618989500E1CF19 /* CVDocument.xcdatamodel */,
+			);
+			currentVersion = 039A6D321618989500E1CF19 /* CVDocument.xcdatamodel */;
+			path = CVDocument.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+/* End XCVersionGroup section */
+	};
+	rootObject = 039A6D091618989500E1CF19 /* Project object */;
+}
