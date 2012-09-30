@@ -7,7 +7,21 @@
 //
 
 #import <Cocoa/Cocoa.h>
+#import "CVViewController.h"
+
+
+@class AGLKView;
+
 
 @interface CVDocument : NSPersistentDocument
+<CVCOLLADASource>
+
+@property (weak, nonatomic, readwrite)
+   IBOutlet AGLKView *aglkView;
+
+@property (strong, nonatomic, readonly)
+   NSMutableArray *roots;
+
+- (IBAction)importCOLLADA:(id)sender;
 
 @end

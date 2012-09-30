@@ -15,6 +15,29 @@
 		039A6D2D1618989500E1CF19 /* CVDocument.xib in Resources */ = {isa = PBXBuildFile; fileRef = 039A6D2B1618989500E1CF19 /* CVDocument.xib */; };
 		039A6D301618989500E1CF19 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 039A6D2E1618989500E1CF19 /* MainMenu.xib */; };
 		039A6D331618989500E1CF19 /* CVDocument.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 039A6D311618989500E1CF19 /* CVDocument.xcdatamodeld */; };
+		039A6D791618B18400E1CF19 /* COLLADAEffect.m in Sources */ = {isa = PBXBuildFile; fileRef = 039A6D6C1618B18300E1CF19 /* COLLADAEffect.m */; };
+		039A6D7A1618B18400E1CF19 /* COLLADAImagePath.m in Sources */ = {isa = PBXBuildFile; fileRef = 039A6D6E1618B18300E1CF19 /* COLLADAImagePath.m */; };
+		039A6D7B1618B18400E1CF19 /* COLLADAInstance.m in Sources */ = {isa = PBXBuildFile; fileRef = 039A6D701618B18300E1CF19 /* COLLADAInstance.m */; };
+		039A6D7C1618B18400E1CF19 /* COLLADAInstanceGeometry.m in Sources */ = {isa = PBXBuildFile; fileRef = 039A6D721618B18300E1CF19 /* COLLADAInstanceGeometry.m */; };
+		039A6D7D1618B18400E1CF19 /* COLLADAMeshGeometry.m in Sources */ = {isa = PBXBuildFile; fileRef = 039A6D741618B18300E1CF19 /* COLLADAMeshGeometry.m */; };
+		039A6D7E1618B18400E1CF19 /* COLLADANode.m in Sources */ = {isa = PBXBuildFile; fileRef = 039A6D761618B18300E1CF19 /* COLLADANode.m */; };
+		039A6D7F1618B18400E1CF19 /* COLLADAResource.m in Sources */ = {isa = PBXBuildFile; fileRef = 039A6D781618B18300E1CF19 /* COLLADAResource.m */; };
+		039A6D811618B86700E1CF19 /* GLKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 039A6D801618B86700E1CF19 /* GLKit.framework */; };
+		039A6D831618B87000E1CF19 /* OpenGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 039A6D821618B87000E1CF19 /* OpenGL.framework */; };
+		039A6D8C1618B8B400E1CF19 /* COLLADAParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 039A6D851618B8B400E1CF19 /* COLLADAParser.m */; };
+		039A6D8D1618B8B400E1CF19 /* COLLADAParser+geometry.m in Sources */ = {isa = PBXBuildFile; fileRef = 039A6D871618B8B400E1CF19 /* COLLADAParser+geometry.m */; };
+		039A6D8E1618B8B400E1CF19 /* COLLADARoot.m in Sources */ = {isa = PBXBuildFile; fileRef = 039A6D891618B8B400E1CF19 /* COLLADARoot.m */; };
+		039A6D8F1618B8B400E1CF19 /* COLLADARoot+viewAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 039A6D8B1618B8B400E1CF19 /* COLLADARoot+viewAdditions.m */; };
+		039A6D991618B91F00E1CF19 /* AGLKBaseEffect.m in Sources */ = {isa = PBXBuildFile; fileRef = 039A6D921618B91F00E1CF19 /* AGLKBaseEffect.m */; };
+		039A6D9A1618B91F00E1CF19 /* AGLKEffect.m in Sources */ = {isa = PBXBuildFile; fileRef = 039A6D941618B91F00E1CF19 /* AGLKEffect.m */; };
+		039A6D9B1618B91F00E1CF19 /* AGLKView.m in Sources */ = {isa = PBXBuildFile; fileRef = 039A6D961618B91F00E1CF19 /* AGLKView.m */; };
+		039A6D9C1618B91F00E1CF19 /* AGLKViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 039A6D981618B91F00E1CF19 /* AGLKViewController.m */; };
+		039A6DA21618B94100E1CF19 /* AGLKMesh.m in Sources */ = {isa = PBXBuildFile; fileRef = 039A6D9F1618B94100E1CF19 /* AGLKMesh.m */; };
+		039A6DA31618B94100E1CF19 /* AGLKMesh+viewAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 039A6DA11618B94100E1CF19 /* AGLKMesh+viewAdditions.m */; };
+		039A6DA61618F4D500E1CF19 /* CVViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 039A6DA51618F4D500E1CF19 /* CVViewController.m */; };
+		039A6DAC1618F74F00E1CF19 /* CVView.m in Sources */ = {isa = PBXBuildFile; fileRef = 039A6DAB1618F74F00E1CF19 /* CVView.m */; };
+		039A6DB0161900AA00E1CF19 /* AGLKBaseEffectShader.fsh in Resources */ = {isa = PBXBuildFile; fileRef = 039A6DAE161900AA00E1CF19 /* AGLKBaseEffectShader.fsh */; };
+		039A6DB1161900AA00E1CF19 /* AGLKBaseEffectShader.vsh in Resources */ = {isa = PBXBuildFile; fileRef = 039A6DAF161900AA00E1CF19 /* AGLKBaseEffectShader.vsh */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -33,6 +56,49 @@
 		039A6D2C1618989500E1CF19 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/CVDocument.xib; sourceTree = "<group>"; };
 		039A6D2F1618989500E1CF19 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/MainMenu.xib; sourceTree = "<group>"; };
 		039A6D321618989500E1CF19 /* CVDocument.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = CVDocument.xcdatamodel; sourceTree = "<group>"; };
+		039A6D6B1618B18300E1CF19 /* COLLADAEffect.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = COLLADAEffect.h; sourceTree = "<group>"; };
+		039A6D6C1618B18300E1CF19 /* COLLADAEffect.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = COLLADAEffect.m; sourceTree = "<group>"; };
+		039A6D6D1618B18300E1CF19 /* COLLADAImagePath.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = COLLADAImagePath.h; sourceTree = "<group>"; };
+		039A6D6E1618B18300E1CF19 /* COLLADAImagePath.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = COLLADAImagePath.m; sourceTree = "<group>"; };
+		039A6D6F1618B18300E1CF19 /* COLLADAInstance.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = COLLADAInstance.h; sourceTree = "<group>"; };
+		039A6D701618B18300E1CF19 /* COLLADAInstance.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = COLLADAInstance.m; sourceTree = "<group>"; };
+		039A6D711618B18300E1CF19 /* COLLADAInstanceGeometry.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = COLLADAInstanceGeometry.h; sourceTree = "<group>"; };
+		039A6D721618B18300E1CF19 /* COLLADAInstanceGeometry.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = COLLADAInstanceGeometry.m; sourceTree = "<group>"; };
+		039A6D731618B18300E1CF19 /* COLLADAMeshGeometry.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = COLLADAMeshGeometry.h; sourceTree = "<group>"; };
+		039A6D741618B18300E1CF19 /* COLLADAMeshGeometry.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = COLLADAMeshGeometry.m; sourceTree = "<group>"; };
+		039A6D751618B18300E1CF19 /* COLLADANode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = COLLADANode.h; sourceTree = "<group>"; };
+		039A6D761618B18300E1CF19 /* COLLADANode.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = COLLADANode.m; sourceTree = "<group>"; };
+		039A6D771618B18300E1CF19 /* COLLADAResource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = COLLADAResource.h; sourceTree = "<group>"; };
+		039A6D781618B18300E1CF19 /* COLLADAResource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = COLLADAResource.m; sourceTree = "<group>"; };
+		039A6D801618B86700E1CF19 /* GLKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GLKit.framework; path = System/Library/Frameworks/GLKit.framework; sourceTree = SDKROOT; };
+		039A6D821618B87000E1CF19 /* OpenGL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGL.framework; path = System/Library/Frameworks/OpenGL.framework; sourceTree = SDKROOT; };
+		039A6D841618B8B300E1CF19 /* COLLADAParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = COLLADAParser.h; sourceTree = "<group>"; };
+		039A6D851618B8B400E1CF19 /* COLLADAParser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = COLLADAParser.m; sourceTree = "<group>"; };
+		039A6D861618B8B400E1CF19 /* COLLADAParser+geometry.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "COLLADAParser+geometry.h"; sourceTree = "<group>"; };
+		039A6D871618B8B400E1CF19 /* COLLADAParser+geometry.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "COLLADAParser+geometry.m"; sourceTree = "<group>"; };
+		039A6D881618B8B400E1CF19 /* COLLADARoot.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = COLLADARoot.h; sourceTree = "<group>"; };
+		039A6D891618B8B400E1CF19 /* COLLADARoot.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = COLLADARoot.m; sourceTree = "<group>"; };
+		039A6D8A1618B8B400E1CF19 /* COLLADARoot+viewAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "COLLADARoot+viewAdditions.h"; sourceTree = "<group>"; };
+		039A6D8B1618B8B400E1CF19 /* COLLADARoot+viewAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "COLLADARoot+viewAdditions.m"; sourceTree = "<group>"; };
+		039A6D911618B91F00E1CF19 /* AGLKBaseEffect.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AGLKBaseEffect.h; sourceTree = "<group>"; };
+		039A6D921618B91F00E1CF19 /* AGLKBaseEffect.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AGLKBaseEffect.m; sourceTree = "<group>"; };
+		039A6D931618B91F00E1CF19 /* AGLKEffect.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AGLKEffect.h; sourceTree = "<group>"; };
+		039A6D941618B91F00E1CF19 /* AGLKEffect.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AGLKEffect.m; sourceTree = "<group>"; };
+		039A6D951618B91F00E1CF19 /* AGLKView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AGLKView.h; sourceTree = "<group>"; };
+		039A6D961618B91F00E1CF19 /* AGLKView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AGLKView.m; sourceTree = "<group>"; };
+		039A6D971618B91F00E1CF19 /* AGLKViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AGLKViewController.h; sourceTree = "<group>"; };
+		039A6D981618B91F00E1CF19 /* AGLKViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AGLKViewController.m; sourceTree = "<group>"; };
+		039A6D9D1618B94100E1CF19 /* AGLKAxisAllignedBoundingBox.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AGLKAxisAllignedBoundingBox.h; sourceTree = "<group>"; };
+		039A6D9E1618B94100E1CF19 /* AGLKMesh.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AGLKMesh.h; sourceTree = "<group>"; };
+		039A6D9F1618B94100E1CF19 /* AGLKMesh.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AGLKMesh.m; sourceTree = "<group>"; };
+		039A6DA01618B94100E1CF19 /* AGLKMesh+viewAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "AGLKMesh+viewAdditions.h"; sourceTree = "<group>"; };
+		039A6DA11618B94100E1CF19 /* AGLKMesh+viewAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "AGLKMesh+viewAdditions.m"; sourceTree = "<group>"; };
+		039A6DA41618F4D500E1CF19 /* CVViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CVViewController.h; sourceTree = "<group>"; };
+		039A6DA51618F4D500E1CF19 /* CVViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CVViewController.m; sourceTree = "<group>"; };
+		039A6DAA1618F74F00E1CF19 /* CVView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CVView.h; sourceTree = "<group>"; };
+		039A6DAB1618F74F00E1CF19 /* CVView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CVView.m; sourceTree = "<group>"; };
+		039A6DAE161900AA00E1CF19 /* AGLKBaseEffectShader.fsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = AGLKBaseEffectShader.fsh; sourceTree = "<group>"; };
+		039A6DAF161900AA00E1CF19 /* AGLKBaseEffectShader.vsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = AGLKBaseEffectShader.vsh; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -40,6 +106,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				039A6D831618B87000E1CF19 /* OpenGL.framework in Frameworks */,
+				039A6D811618B86700E1CF19 /* GLKit.framework in Frameworks */,
 				039A6D171618989500E1CF19 /* Cocoa.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -50,6 +118,8 @@
 		039A6D071618989500E1CF19 = {
 			isa = PBXGroup;
 			children = (
+				039A6D821618B87000E1CF19 /* OpenGL.framework */,
+				039A6D801618B86700E1CF19 /* GLKit.framework */,
 				039A6D1C1618989500E1CF19 /* COLLADAViewer2 */,
 				039A6D151618989500E1CF19 /* Frameworks */,
 				039A6D131618989500E1CF19 /* Products */,
@@ -86,11 +156,11 @@
 		039A6D1C1618989500E1CF19 /* COLLADAViewer2 */ = {
 			isa = PBXGroup;
 			children = (
-				039A6D281618989500E1CF19 /* CVDocument.h */,
-				039A6D291618989500E1CF19 /* CVDocument.m */,
-				039A6D2B1618989500E1CF19 /* CVDocument.xib */,
-				039A6D2E1618989500E1CF19 /* MainMenu.xib */,
-				039A6D311618989500E1CF19 /* CVDocument.xcdatamodeld */,
+				039A6D901618B91F00E1CF19 /* AGLK */,
+				039A6D511618AA0500E1CF19 /* COLLADA */,
+				039A6DB51619033100E1CF19 /* Controller */,
+				039A6DB61619033F00E1CF19 /* View */,
+				039A6DB71619034800E1CF19 /* Model */,
 				039A6D1D1618989500E1CF19 /* Supporting Files */,
 			);
 			path = COLLADAViewer2;
@@ -106,6 +176,119 @@
 				039A6D251618989500E1CF19 /* Credits.rtf */,
 			);
 			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		039A6D511618AA0500E1CF19 /* COLLADA */ = {
+			isa = PBXGroup;
+			children = (
+				039A6DB31619030C00E1CF19 /* Controller */,
+				039A6DB2161902FD00E1CF19 /* Model */,
+				039A6DB41619031E00E1CF19 /* View */,
+			);
+			path = COLLADA;
+			sourceTree = "<group>";
+		};
+		039A6D901618B91F00E1CF19 /* AGLK */ = {
+			isa = PBXGroup;
+			children = (
+				039A6DAD161900AA00E1CF19 /* Shaders */,
+				039A6D9D1618B94100E1CF19 /* AGLKAxisAllignedBoundingBox.h */,
+				039A6D9E1618B94100E1CF19 /* AGLKMesh.h */,
+				039A6D9F1618B94100E1CF19 /* AGLKMesh.m */,
+				039A6DA01618B94100E1CF19 /* AGLKMesh+viewAdditions.h */,
+				039A6DA11618B94100E1CF19 /* AGLKMesh+viewAdditions.m */,
+				039A6D911618B91F00E1CF19 /* AGLKBaseEffect.h */,
+				039A6D921618B91F00E1CF19 /* AGLKBaseEffect.m */,
+				039A6D931618B91F00E1CF19 /* AGLKEffect.h */,
+				039A6D941618B91F00E1CF19 /* AGLKEffect.m */,
+				039A6D951618B91F00E1CF19 /* AGLKView.h */,
+				039A6D961618B91F00E1CF19 /* AGLKView.m */,
+				039A6D971618B91F00E1CF19 /* AGLKViewController.h */,
+				039A6D981618B91F00E1CF19 /* AGLKViewController.m */,
+			);
+			path = AGLK;
+			sourceTree = "<group>";
+		};
+		039A6DAD161900AA00E1CF19 /* Shaders */ = {
+			isa = PBXGroup;
+			children = (
+				039A6DAE161900AA00E1CF19 /* AGLKBaseEffectShader.fsh */,
+				039A6DAF161900AA00E1CF19 /* AGLKBaseEffectShader.vsh */,
+			);
+			path = Shaders;
+			sourceTree = "<group>";
+		};
+		039A6DB2161902FD00E1CF19 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				039A6D881618B8B400E1CF19 /* COLLADARoot.h */,
+				039A6D891618B8B400E1CF19 /* COLLADARoot.m */,
+				039A6D6B1618B18300E1CF19 /* COLLADAEffect.h */,
+				039A6D6C1618B18300E1CF19 /* COLLADAEffect.m */,
+				039A6D6D1618B18300E1CF19 /* COLLADAImagePath.h */,
+				039A6D6E1618B18300E1CF19 /* COLLADAImagePath.m */,
+				039A6D6F1618B18300E1CF19 /* COLLADAInstance.h */,
+				039A6D701618B18300E1CF19 /* COLLADAInstance.m */,
+				039A6D711618B18300E1CF19 /* COLLADAInstanceGeometry.h */,
+				039A6D721618B18300E1CF19 /* COLLADAInstanceGeometry.m */,
+				039A6D731618B18300E1CF19 /* COLLADAMeshGeometry.h */,
+				039A6D741618B18300E1CF19 /* COLLADAMeshGeometry.m */,
+				039A6D751618B18300E1CF19 /* COLLADANode.h */,
+				039A6D761618B18300E1CF19 /* COLLADANode.m */,
+				039A6D771618B18300E1CF19 /* COLLADAResource.h */,
+				039A6D781618B18300E1CF19 /* COLLADAResource.m */,
+			);
+			name = Model;
+			sourceTree = "<group>";
+		};
+		039A6DB31619030C00E1CF19 /* Controller */ = {
+			isa = PBXGroup;
+			children = (
+				039A6D841618B8B300E1CF19 /* COLLADAParser.h */,
+				039A6D851618B8B400E1CF19 /* COLLADAParser.m */,
+				039A6D861618B8B400E1CF19 /* COLLADAParser+geometry.h */,
+				039A6D871618B8B400E1CF19 /* COLLADAParser+geometry.m */,
+			);
+			name = Controller;
+			sourceTree = "<group>";
+		};
+		039A6DB41619031E00E1CF19 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				039A6D8A1618B8B400E1CF19 /* COLLADARoot+viewAdditions.h */,
+				039A6D8B1618B8B400E1CF19 /* COLLADARoot+viewAdditions.m */,
+			);
+			name = View;
+			sourceTree = "<group>";
+		};
+		039A6DB51619033100E1CF19 /* Controller */ = {
+			isa = PBXGroup;
+			children = (
+				039A6D281618989500E1CF19 /* CVDocument.h */,
+				039A6D291618989500E1CF19 /* CVDocument.m */,
+				039A6DA41618F4D500E1CF19 /* CVViewController.h */,
+				039A6DA51618F4D500E1CF19 /* CVViewController.m */,
+			);
+			name = Controller;
+			sourceTree = "<group>";
+		};
+		039A6DB61619033F00E1CF19 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				039A6D2B1618989500E1CF19 /* CVDocument.xib */,
+				039A6D2E1618989500E1CF19 /* MainMenu.xib */,
+				039A6DAA1618F74F00E1CF19 /* CVView.h */,
+				039A6DAB1618F74F00E1CF19 /* CVView.m */,
+			);
+			name = View;
+			sourceTree = "<group>";
+		};
+		039A6DB71619034800E1CF19 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				039A6D311618989500E1CF19 /* CVDocument.xcdatamodeld */,
+			);
+			name = Model;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -160,6 +343,8 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				039A6DB0161900AA00E1CF19 /* AGLKBaseEffectShader.fsh in Resources */,
+				039A6DB1161900AA00E1CF19 /* AGLKBaseEffectShader.vsh in Resources */,
 				039A6D211618989500E1CF19 /* InfoPlist.strings in Resources */,
 				039A6D271618989500E1CF19 /* Credits.rtf in Resources */,
 				039A6D2D1618989500E1CF19 /* CVDocument.xib in Resources */,
@@ -177,6 +362,25 @@
 				039A6D231618989500E1CF19 /* main.m in Sources */,
 				039A6D2A1618989500E1CF19 /* CVDocument.m in Sources */,
 				039A6D331618989500E1CF19 /* CVDocument.xcdatamodeld in Sources */,
+				039A6D791618B18400E1CF19 /* COLLADAEffect.m in Sources */,
+				039A6D7A1618B18400E1CF19 /* COLLADAImagePath.m in Sources */,
+				039A6D7B1618B18400E1CF19 /* COLLADAInstance.m in Sources */,
+				039A6D7C1618B18400E1CF19 /* COLLADAInstanceGeometry.m in Sources */,
+				039A6D7D1618B18400E1CF19 /* COLLADAMeshGeometry.m in Sources */,
+				039A6D7E1618B18400E1CF19 /* COLLADANode.m in Sources */,
+				039A6D7F1618B18400E1CF19 /* COLLADAResource.m in Sources */,
+				039A6D8C1618B8B400E1CF19 /* COLLADAParser.m in Sources */,
+				039A6D8D1618B8B400E1CF19 /* COLLADAParser+geometry.m in Sources */,
+				039A6D8E1618B8B400E1CF19 /* COLLADARoot.m in Sources */,
+				039A6D8F1618B8B400E1CF19 /* COLLADARoot+viewAdditions.m in Sources */,
+				039A6D991618B91F00E1CF19 /* AGLKBaseEffect.m in Sources */,
+				039A6D9A1618B91F00E1CF19 /* AGLKEffect.m in Sources */,
+				039A6D9B1618B91F00E1CF19 /* AGLKView.m in Sources */,
+				039A6D9C1618B91F00E1CF19 /* AGLKViewController.m in Sources */,
+				039A6DA21618B94100E1CF19 /* AGLKMesh.m in Sources */,
+				039A6DA31618B94100E1CF19 /* AGLKMesh+viewAdditions.m in Sources */,
+				039A6DA61618F4D500E1CF19 /* CVViewController.m in Sources */,
+				039A6DAC1618F74F00E1CF19 /* CVView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

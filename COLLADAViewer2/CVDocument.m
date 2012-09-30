@@ -7,18 +7,45 @@
 //
 
 #import "CVDocument.h"
+#import "COLLADAParser.h"
+#import "COLLADARoot.h"
+
+
+@interface CVDocument ()
+
+@property (strong, nonatomic, readwrite)
+   CVViewController *viewController;
+@property (strong, nonatomic, readwrite)
+   NSMutableArray *roots;
+
+@end
+
 
 @implementation CVDocument
 
-- (id)init
+/////////////////////////////////////////////////////////////////
+// 
+- (NSMutableArray *)roots
 {
-    self = [super init];
-    if (self) {
-      // Add your subclass-specific initialization here.
-    }
-    return self;
+   if(nil == _roots)
+   {
+      _roots = [NSMutableArray array];
+   }
+   
+   return _roots;
 }
 
+
+/////////////////////////////////////////////////////////////////
+// 
+- (void)appendRoot:(COLLADARoot *)aRoot
+{
+   [self.roots addObject:aRoot];
+}
+
+
+/////////////////////////////////////////////////////////////////
+// 
 - (NSString *)windowNibName
 {
    // Override returning the nib file name of the document
@@ -26,15 +53,82 @@
    return @"CVDocument";
 }
 
+
+/////////////////////////////////////////////////////////////////
+// 
 - (void)windowControllerDidLoadNib:(NSWindowController *)aController
 {
    [super windowControllerDidLoadNib:aController];
-   // Add any code here that needs to be executed once the windowController has loaded the document's window.
+
+   self.viewController =
+      [[CVViewController alloc] initWithNibName:nil bundle:nil];
+   self.viewController.view = self.aglkView;
+   self.viewController.colladaSource = self;
+   
+   // Make view the first responder to receive events
+   [self.aglkView.window makeFirstResponder:self.aglkView];
 }
 
+
+/////////////////////////////////////////////////////////////////
+// 
 + (BOOL)autosavesInPlace
 {
     return YES;
+}
+
+
+#pragma mark - Model loading
+
+/////////////////////////////////////////////////////////////////
+//
+- (void)appendModelParsedFromCOLLADAFileAtURL:(NSURL *)aURL
+{
+//   [self.modelManager appendModelParsedFromCOLLADAFileAtURL:aURL];
+   COLLADAParser *coladaParser =
+      [[COLLADAParser alloc] init];
+      
+   [coladaParser parseCOLLADAFileAtURL:aURL];
+   
+   [self appendRoot:coladaParser.root];
+   
+//   NSString *name = 
+//      [[aURL.path lastPathComponent]
+//      stringByDeletingPathExtension];
+   
+   [self updateChangeCount:NSChangeReadOtherContents];
+}
+
+
+/////////////////////////////////////////////////////////////////
+//
+- (IBAction)importCOLLADA:(id)sender
+{
+   NSOpenPanel *oPanel = [NSOpenPanel openPanel];
+
+   NSArray *fileTypes = [NSArray arrayWithObject:@"dae"];
+   
+   [oPanel setMessage:NSLocalizedString(
+       @"Choose COLLADA .dae files to import.", 
+       @"Choose COLLADA .dae files to import.")];
+	[oPanel setCanChooseDirectories:NO];
+	[oPanel setResolvesAliases:YES];
+	[oPanel setCanChooseFiles:YES];
+   [oPanel setAllowsMultipleSelection:YES];
+   oPanel.allowedFileTypes = fileTypes;
+
+	void (^openPanelHandler)(NSInteger) = ^( NSInteger result )
+	{
+      NSArray *urlsToOpen = [oPanel URLs];
+      
+      for (NSURL *aURL in urlsToOpen)
+      {
+         [self appendModelParsedFromCOLLADAFileAtURL:aURL];
+      }
+	};
+	
+   [oPanel beginSheetModalForWindow:[self windowForSheet] 
+      completionHandler:openPanelHandler];
 }
 
 @end
