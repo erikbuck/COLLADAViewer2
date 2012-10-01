@@ -23,6 +23,8 @@ enum
    AGLKMVPMatrix,
    AGLKNormalMatrix,
    AGLKSamplers2D,
+   AGLKTextureTransforms2D,
+   AGLKTextureEnables,
    AGLKLightModelAmbientColor,
    AGLKLight0Position,
    AGLKLight0DiffuseColor,
@@ -70,6 +72,12 @@ enum
    uniforms_[AGLKSamplers2D] = glGetUniformLocation(
       self.program, 
       "u_units");
+   uniforms_[AGLKTextureTransforms2D] = glGetUniformLocation(
+      self.program, 
+      "u_textureTransforms");
+   uniforms_[AGLKTextureEnables] = glGetUniformLocation(
+      self.program, 
+      "u_textureEnables");
    uniforms_[AGLKLightModelAmbientColor] = glGetUniformLocation(
       self.program, 
       "u_lightModelAmbientColor");
@@ -107,11 +115,46 @@ enum
       self.lightModelAmbientColor.v );
       
    // Textures
+   // Bind all of the textures to their respective units
+   glActiveTexture(GL_TEXTURE0);
+   if(0 != self.texture2d0.name)
+   {
+      glBindTexture(GL_TEXTURE_2D, self.texture2d0.name);
+   }
+   else
+   {
+      glBindTexture(GL_TEXTURE_2D, 0);
+   }
+   
+   glActiveTexture(GL_TEXTURE1);
+   if(0 != self.texture2d1.name && self.texture2d1.enabled)
+   {
+      glBindTexture(GL_TEXTURE_2D, self.texture2d1.name);
+   }
+   else
+   {
+      glBindTexture(GL_TEXTURE_2D, 0);
+   }
+
    GLuint units[MAX_TEXTURES];
-   units[0] = self.texture2d0.name;
-   units[1] = self.texture2d1.name;
-   glUniform2uiv(uniforms_[AGLKSamplers2D], 1,
+   GLfloat enables[MAX_TEXTURES];
+   units[0] = 0;
+   enables[0] = (0 != self.texture2d0.name) ? 1.0f : 0.0f;
+   units[1] = 1;
+   enables[1] = (0 != self.texture2d1.name) ? 1.0f : 0.0f;
+   glUniform1uiv(uniforms_[AGLKSamplers2D], MAX_TEXTURES,
       units);
+   glUniform1fv(uniforms_[AGLKTextureEnables], MAX_TEXTURES,
+      enables);
+   
+   // Texture transforms
+   GLKMatrix3 textureTransforms[MAX_TEXTURES];
+   textureTransforms[0] = self.texture2d0Transform;
+   textureTransforms[1] = self.texture2d1Transform;
+   glUniformMatrix3fv(uniforms_[AGLKTextureTransforms2D], MAX_TEXTURES,
+      GL_FALSE, (float *)textureTransforms);
+   
+   
 }
 
 

@@ -59,7 +59,13 @@ GLKVector4 lightModelAmbientColor;
 GLKEffectPropertyTexture *texture2d0;
 
 @property (nonatomic, readonly)
+GLKMatrix3 texture2d0Transform;
+
+@property (nonatomic, readonly)
 GLKEffectPropertyTexture *texture2d1;
+
+@property (nonatomic, readonly)
+GLKMatrix3 texture2d1Transform;
 
 @property (nonatomic, copy)
 NSString *label;              

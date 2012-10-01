@@ -12,6 +12,6 @@
 
 @interface COLLADAEffect : COLLADAResource
 
-@property (nonatomic, retain) NSString *diffuseTextureURL;
+@property (nonatomic, retain) NSString *diffuseTextureImagePathURL;
 
 @end

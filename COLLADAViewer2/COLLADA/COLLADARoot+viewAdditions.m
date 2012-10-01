@@ -10,7 +10,9 @@
 #import "COLLADANode.h"
 #import "COLLADAMeshGeometry.h"
 #import "COLLADAInstanceGeometry.h"
+#import "COLLADAEffect.h"
 #import "AGLKEffect.h"
+#import "COLLADAImagePath.h"
 #import "AGLKMesh+viewAdditions.h"
 
 #undef __gl_h_
@@ -78,6 +80,51 @@
    {
       NSLog(@"instance_geometry references unknown geometry");
       return;
+   }
+   
+   anEffect.texture2d0.name = 0;
+   anEffect.texture2d0.target = 0;
+
+   COLLADAInstance *bindMaterial =
+      [self.bindMaterials anyObject];
+   if(nil != bindMaterial)
+   {
+      COLLADAResource *referencedMaterial =
+         [aRoot.materials objectForKey:bindMaterial.url];
+      
+      if(nil == referencedMaterial)
+      {
+         NSLog(@"instance_geometry references unknown material");
+      }
+      else
+      {
+         COLLADAInstance *instanceEffect =
+            referencedMaterial.instances.anyObject;
+         
+         COLLADAEffect *referencedEffect =
+            [aRoot.effects objectForKey:instanceEffect.url];
+         
+         if(nil == referencedEffect)
+         {
+            NSLog(@"instance_geometry references unknown effect");
+         }
+         else
+         {
+            COLLADAImagePath *referencedImagePath =
+               [aRoot.imagePaths
+                  objectForKey:referencedEffect.diffuseTextureImagePathURL];
+            
+            if(nil != referencedImagePath)
+            {
+               anEffect.texture2d0.name =
+                  referencedImagePath.textureInfo.name;
+               anEffect.texture2d0.target =
+                  referencedImagePath.textureInfo.target;
+               
+//               NSLog(@"%@ %d", referencedImagePath.uid, anEffect.texture2d0.name);
+            }
+         }
+      }
    }
    
    [referencedGeometry drawWithEffect:anEffect

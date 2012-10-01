@@ -11,6 +11,8 @@
 
 @implementation COLLADAInstanceGeometry
 
+/////////////////////////////////////////////////////////////////
+//
 - (NSSet *)bindMaterials;
 {
    if(nil == _bindMaterials)

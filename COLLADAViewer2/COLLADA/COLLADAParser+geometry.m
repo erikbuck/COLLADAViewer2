@@ -518,7 +518,7 @@ COLLADAVertexAttributePointers;
       }
       else if(nil != lines && 0 < [lines count])
       { // Lines currently ignored
-         NSLog(@"Geometry <lines> ignored");
+//         NSLog(@"Geometry <lines> ignored");
       }
       else
       {

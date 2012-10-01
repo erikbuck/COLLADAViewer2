@@ -161,6 +161,8 @@ static const float COLLADAParserMetersPerInch = 0.0254f;
    {
       NSString *imageID =
          [[imageElement attributeForName:@"id"] objectValue];
+      imageID =
+         [@"#" stringByAppendingString:imageID];
       
       NSArray *pathElements = 
          [imageElement elementsForName:@"init_from"];
@@ -601,7 +603,7 @@ static const float COLLADAParserMetersPerInch = 0.0254f;
          NSString *idString = [idNode objectValue];
          newScene.uid = [@"#" stringByAppendingString:idString];
          
-         [self.root.visualScenes setObject:newScene forKey:idString];
+         [self.root.visualScenes setObject:newScene forKey:newScene.uid];
 
          // Name
          NSXMLNode *nameNode =
@@ -646,7 +648,7 @@ static const float COLLADAParserMetersPerInch = 0.0254f;
          NSString *idString = [idNode objectValue];
          newMaterial.uid = [@"#" stringByAppendingString:idString];
 
-         [self.root.materials setObject:newMaterial forKey:idString];
+         [self.root.materials setObject:newMaterial forKey:newMaterial.uid];
 
          // Name
          NSXMLNode *nameNode =
@@ -656,7 +658,7 @@ static const float COLLADAParserMetersPerInch = 0.0254f;
          
          // Instance Effects
          NSArray *instanceEffects =
-            [element elementsForName:@"instance_effect"];
+            [materialElement elementsForName:@"instance_effect"];
       
          for(NSXMLElement *instanceEffectElement in instanceEffects)
          {  
@@ -702,7 +704,7 @@ static const float COLLADAParserMetersPerInch = 0.0254f;
          NSString *idString = [idNode objectValue];
          newEffect.uid = [@"#" stringByAppendingString:idString];
 
-         [self.root.effects setObject:newEffect forKey:idString];
+         [self.root.effects setObject:newEffect forKey:newEffect.uid];
          
          // Name
          NSXMLNode *nameNode =
@@ -723,22 +725,22 @@ static const float COLLADAParserMetersPerInch = 0.0254f;
          for(NSXMLElement *profileElement in profileElements)
          {  
             NSArray *newParamElements =
-               [element elementsForName:@"newparam"];
+               [profileElement elementsForName:@"newparam"];
             
             for(NSXMLElement *newParamElement in newParamElements)
             {  
                NSArray *surfaceElements =
-                  [element elementsForName:@"surface"];
+                  [newParamElement elementsForName:@"surface"];
                
                for(NSXMLElement *surfaceElement in surfaceElements)
                {  
                   NSArray *initFromElements =
-                     [element elementsForName:@"init_from"];
+                     [surfaceElement elementsForName:@"init_from"];
                   
                   for(NSXMLElement *initFromElement in initFromElements)
                   {
-                     newEffect.diffuseTextureURL =
-                        initFromElement.objectValue;
+                     newEffect.diffuseTextureImagePathURL =
+                        [@"#" stringByAppendingString:initFromElement.objectValue];
                   }
                }
             }
@@ -869,6 +871,11 @@ static const float COLLADAParserMetersPerInch = 0.0254f;
       self.root.path = [aURL.path stringByDeletingLastPathComponent];
       self.root.name =
          [[aURL.path lastPathComponent] stringByDeletingPathExtension];
+      
+      for(COLLADAImagePath *imagePath in self.root.imagePaths.allValues)
+      {
+         [imagePath loadImageFromBasePath:self.root.path];
+      }
    }
 }
 

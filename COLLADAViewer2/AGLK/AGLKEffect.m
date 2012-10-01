@@ -14,11 +14,6 @@
 
 @interface AGLKEffect ()
 {
-  GLuint program_;
-  GLKEffectPropertyTransform *transform_;
-  GLKEffectPropertyLight *light0_;
-  GLKEffectPropertyTexture *texture2d0_;
-  GLKEffectPropertyTexture *texture2d1_;
 }
 
 - (BOOL)compileShader:(GLuint *)shader 
@@ -35,8 +30,11 @@
 @synthesize program = program_;
 @synthesize transform = transform_;
 @synthesize light0 = light0_;
+@synthesize lightModelAmbientColor = lightModelAmbientColor_;
 @synthesize texture2d0 = texture2d0_;
 @synthesize texture2d1 = texture2d1_;
+@synthesize texture2d0Transform = texture2d0Transform_;
+@synthesize texture2d1Transform = texture2d1Transform_;
 
 
 #pragma mark - Lifecycle
@@ -47,6 +45,9 @@
    if (self)
    {
       transform_ = [[GLKEffectPropertyTransform alloc] init];
+      texture2d0Transform_ = GLKMatrix3Identity;
+      texture2d1Transform_ = GLKMatrix3Identity;
+      lightModelAmbientColor_ = GLKVector4Make(0.3, 0.3, 0.3, 1.0);
    }
 
    return self;

@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		035AAD871619F35300BEDEC6 /* MissingImage.png in Resources */ = {isa = PBXBuildFile; fileRef = 035AAD861619F35300BEDEC6 /* MissingImage.png */; };
 		039A6D171618989500E1CF19 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 039A6D161618989500E1CF19 /* Cocoa.framework */; };
 		039A6D211618989500E1CF19 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 039A6D1F1618989500E1CF19 /* InfoPlist.strings */; };
 		039A6D231618989500E1CF19 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 039A6D221618989500E1CF19 /* main.m */; };
@@ -41,6 +42,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		035AAD861619F35300BEDEC6 /* MissingImage.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = MissingImage.png; sourceTree = "<group>"; };
 		039A6D121618989500E1CF19 /* COLLADAViewer2.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = COLLADAViewer2.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		039A6D161618989500E1CF19 /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
 		039A6D191618989500E1CF19 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
@@ -255,6 +257,7 @@
 		039A6DB41619031E00E1CF19 /* View */ = {
 			isa = PBXGroup;
 			children = (
+				035AAD861619F35300BEDEC6 /* MissingImage.png */,
 				039A6D8A1618B8B400E1CF19 /* COLLADARoot+viewAdditions.h */,
 				039A6D8B1618B8B400E1CF19 /* COLLADARoot+viewAdditions.m */,
 			);
@@ -349,6 +352,7 @@
 				039A6D271618989500E1CF19 /* Credits.rtf in Resources */,
 				039A6D2D1618989500E1CF19 /* CVDocument.xib in Resources */,
 				039A6D301618989500E1CF19 /* MainMenu.xib in Resources */,
+				035AAD871619F35300BEDEC6 /* MissingImage.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -518,6 +522,7 @@
 				039A6D381618989500E1CF19 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 

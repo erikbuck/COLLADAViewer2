@@ -7,11 +7,26 @@
 //
 
 #import <Foundation/Foundation.h>
+#import <GLKit/GLKMath.h>
 #import "COLLADAResource.h"
+
+@class GLKTextureInfo;
 
 
 @interface COLLADAImagePath : COLLADAResource
 
-@property (nonatomic, retain) NSString *path;
+@property (nonatomic, retain)
+   NSString *path;
+
+@property (nonatomic, retain)
+   NSImage *image;
+
+@property (nonatomic, strong)
+   GLKTextureInfo *textureInfo;
+
+@property (nonatomic, assign)
+   GLKMatrix4 textureTransform;
+
+- (void)loadImageFromBasePath:(NSString *)aPath;
 
 @end

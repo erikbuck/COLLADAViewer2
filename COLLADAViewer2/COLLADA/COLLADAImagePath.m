@@ -8,8 +8,128 @@
 
 #import "COLLADAImagePath.h"
 
+#undef __gl_h_
+#import <GLKit/GLKit.h>
+
 
 @implementation COLLADAImagePath
 
+/////////////////////////////////////////////////////////////////
+//
+- (id)init
+{
+    self = [super init];
+    if (self)
+    {
+       self.textureTransform = GLKMatrix4Identity;
+    }
+   
+    return self;
+}
+
+
+/////////////////////////////////////////////////////////////////
+//
+- (void)loadImageFromBasePath:(NSString *)aPath;
+{
+   NSString *fullPath =
+      [aPath stringByAppendingPathComponent:self.path];
+   
+   if(nil == fullPath)
+   {
+      NSLog(@"Invalid image path could not be loaded");
+      return;
+   }
+   
+	CGImageRef image = NULL;
+   
+   {
+      CFURLRef url = CFURLCreateWithFileSystemPath(
+         kCFAllocatorDefault,
+         (__bridge CFStringRef)(fullPath),
+         kCFURLPOSIXPathStyle,
+         false);
+      CGImageSourceRef imageSource =
+         CGImageSourceCreateWithURL(url, nil);
+      image =
+         CGImageSourceCreateImageAtIndex(imageSource, 0, nil);
+      CFRelease(url);
+      CFRelease(imageSource);
+   }
+   
+   if(NULL == image)
+   {
+      NSLog(@"Image path could not be loaded: <%@>",
+         fullPath);
+   }
+   else
+   {
+      NSSize imageSize =
+         NSMakeSize(MIN(256.0f, CGImageGetWidth(image)),
+             MIN(256.0, CGImageGetHeight(image)));
+      self.image =
+         [[NSImage alloc] initWithCGImage:image size:imageSize];
+      
+      if(nil == self.image)
+      {
+         NSLog(@"Image could not be cached: <%@>",
+            fullPath);
+      }
+
+      NSError *error = nil;
+      
+      self.textureInfo =
+         [GLKTextureLoader textureWithCGImage:image
+            options:nil
+            error:&error];
+      
+      if(nil == self.textureInfo)
+      {
+         NSLog(@"Could not create texture for image: <%@>\n%@",
+            fullPath, error);
+      }
+   }
+   
+   CGImageRelease(image);
+}
+
+
+/////////////////////////////////////////////////////////////////
+//
+NSString *CVMissingImageName = @"MissingImage";
+
+/////////////////////////////////////////////////////////////////
+//
+- (GLKTextureInfo *)textureInfo;
+{   
+   if(nil == _textureInfo)
+   {
+      NSString *path =
+         [[NSBundle bundleForClass:[self class]]
+            pathForImageResource:CVMissingImageName];
+      
+      if(nil == path)
+      {
+         NSLog(@"Could not finf placeholder for missing image.");
+      }
+      else
+      {
+         NSError *error = nil;
+         
+         self.textureInfo =
+            [GLKTextureLoader textureWithContentsOfFile:path
+               options:nil
+               error:&error];
+         
+         if(nil == self.textureInfo)
+         {
+            NSLog(@"Could not create texture for image: <%@>\n%@",
+               path, error);
+         }
+      }
+   }
+   
+   return _textureInfo;
+}
 
 @end

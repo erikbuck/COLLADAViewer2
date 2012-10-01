@@ -12,6 +12,8 @@
 
 @implementation COLLADAResource
 
+/////////////////////////////////////////////////////////////////
+//
 - (NSSet *)instances;
 {
    if(nil == _instances)
