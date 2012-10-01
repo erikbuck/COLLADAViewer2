@@ -1,43 +1,4 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <model name="" userDefinedModelVersionIdentifier="" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="1810" systemVersion="12C54" minimumToolsVersion="Automatic" macOSVersion="Automatic" iOSVersion="Automatic">
-    <entity name="BindMaterial" representedClassName="COLLADABindMaterial" parentEntity="Instance" syncable="YES">
-        <relationship name="instanceGeometry" optional="YES" minCount="1" maxCount="1" deletionRule="Nullify" destinationEntity="InstanceGeometry" inverseName="bindMaterial" inverseEntity="InstanceGeometry" syncable="YES"/>
-    </entity>
-    <entity name="Effect" representedClassName="COLLADAEffect" parentEntity="Resource" syncable="YES">
-        <attribute name="diffuseTextureURL" optional="YES" attributeType="String" syncable="YES"/>
-    </entity>
-    <entity name="ImagePath" representedClassName="COLLADAImagePath" parentEntity="Resource" syncable="YES">
-        <attribute name="path" attributeType="String" syncable="YES"/>
-    </entity>
-    <entity name="Instance" representedClassName="COLLADAInstance" syncable="YES">
-        <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
-        <attribute name="url" attributeType="String" syncable="YES"/>
-        <relationship name="owner" optional="YES" minCount="1" maxCount="1" deletionRule="Nullify" destinationEntity="Resource" inverseName="instances" inverseEntity="Resource" syncable="YES"/>
-    </entity>
-    <entity name="InstanceGeometry" representedClassName="COLLADAInstanceGeometry" parentEntity="Instance" syncable="YES">
-        <relationship name="bindMaterial" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="BindMaterial" inverseName="instanceGeometry" inverseEntity="BindMaterial" syncable="YES"/>
-    </entity>
-    <entity name="MeshGeometry" representedClassName="COLLADAMeshGeometry" parentEntity="Resource" syncable="YES">
-        <attribute name="mesh" attributeType="Transformable" syncable="YES"/>
-    </entity>
-    <entity name="Node" representedClassName="COLLADANode" parentEntity="Resource" syncable="YES">
-        <attribute name="transform" attributeType="Binary" syncable="YES"/>
-        <relationship name="parent" optional="YES" minCount="1" maxCount="1" deletionRule="Nullify" destinationEntity="Node" inverseName="subnodes" inverseEntity="Node" syncable="YES"/>
-        <relationship name="subnodes" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Node" inverseName="parent" inverseEntity="Node" syncable="YES"/>
-    </entity>
-    <entity name="Resource" representedClassName="COLLADAResource" isAbstract="YES" syncable="YES">
-        <attribute name="id" optional="YES" attributeType="String" syncable="YES"/>
-        <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
-        <relationship name="instances" optional="YES" toMany="YES" deletionRule="No Action" destinationEntity="Instance" inverseName="owner" inverseEntity="Instance" syncable="YES"/>
-    </entity>
-    <elements>
-        <element name="Resource" positionX="-27" positionY="99" width="135" height="88"/>
-        <element name="Instance" positionX="135" positionY="99" width="135" height="88"/>
-        <element name="Node" positionX="-27" positionY="216" width="135" height="88"/>
-        <element name="MeshGeometry" positionX="-191" positionY="-9" width="137" height="58"/>
-        <element name="Effect" positionX="-189" positionY="216" width="135" height="58"/>
-        <element name="ImagePath" positionX="-189" positionY="99" width="135" height="58"/>
-        <element name="InstanceGeometry" positionX="135" positionY="-9" width="135" height="58"/>
-        <element name="BindMaterial" positionX="-27" positionY="-9" width="135" height="58"/>
-    </elements>
+    <elements/>
 </model>

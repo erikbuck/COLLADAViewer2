@@ -14,6 +14,8 @@
 
 @property (strong, nonatomic)
    NSString *path;
+@property (strong, nonatomic)
+   NSString *name;
 @property (assign, nonatomic)
    GLKMatrix4 transform;
 @property (strong, nonatomic)

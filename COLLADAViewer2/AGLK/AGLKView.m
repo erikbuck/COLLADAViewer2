@@ -101,13 +101,4 @@
 	CGLFlushDrawable([[self openGLContext] CGLContextObj]);
 }
 
-
-/////////////////////////////////////////////////////////////////
-// 
-- (BOOL)canBecomeFirstResponder
-{
-    return YES;
-}
-
-
 @end

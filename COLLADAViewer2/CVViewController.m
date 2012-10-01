@@ -87,6 +87,17 @@
 
 
 /////////////////////////////////////////////////////////////////
+//
+- (void)drawSelectedRootAtIndex:(NSUInteger)index
+{
+   COLLADARoot *root =
+      [self.colladaSource.allRoots objectAtIndex:index];
+   
+   [root drawWithEffect:self.baseEffect];
+}
+
+
+/////////////////////////////////////////////////////////////////
 // 
 - (void)aglkView:(AGLKView *)view
    drawInRect:(NSRect)rect;
@@ -110,10 +121,11 @@
          1.0f, // Blue 
          1.0f);// Alpha    
 
-   for(COLLADARoot *root in self.colladaSource.roots)
+   [self.colladaSource.selectedRoots
+      enumerateIndexesUsingBlock:^(NSUInteger index, BOOL *stop)
    {
-      [root drawWithEffect:self.baseEffect];
-   }
+      [self drawSelectedRootAtIndex:index];
+   }];
 }
 
 @end

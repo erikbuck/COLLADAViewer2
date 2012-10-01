@@ -16,7 +16,7 @@
 @property (strong, nonatomic, readwrite)
    CVViewController *viewController;
 @property (strong, nonatomic, readwrite)
-   NSMutableArray *roots;
+   NSArray *allRoots;
 
 @end
 
@@ -25,14 +25,14 @@
 
 /////////////////////////////////////////////////////////////////
 // 
-- (NSMutableArray *)roots
+- (NSArray *)allRoots
 {
-   if(nil == _roots)
+   if(nil == _allRoots)
    {
-      _roots = [NSMutableArray array];
+      _allRoots = [NSMutableArray array];
    }
    
-   return _roots;
+   return _allRoots;
 }
 
 
@@ -40,7 +40,8 @@
 // 
 - (void)appendRoot:(COLLADARoot *)aRoot
 {
-   [self.roots addObject:aRoot];
+   self.allRoots =
+      [self.allRoots arrayByAddingObject:aRoot];
 }
 
 
@@ -82,19 +83,14 @@
 
 /////////////////////////////////////////////////////////////////
 //
-- (void)appendModelParsedFromCOLLADAFileAtURL:(NSURL *)aURL
+- (void)appendRootParsedFromCOLLADAFileAtURL:(NSURL *)aURL
 {
-//   [self.modelManager appendModelParsedFromCOLLADAFileAtURL:aURL];
    COLLADAParser *coladaParser =
       [[COLLADAParser alloc] init];
       
    [coladaParser parseCOLLADAFileAtURL:aURL];
    
    [self appendRoot:coladaParser.root];
-   
-//   NSString *name = 
-//      [[aURL.path lastPathComponent]
-//      stringByDeletingPathExtension];
    
    [self updateChangeCount:NSChangeReadOtherContents];
 }
@@ -119,12 +115,20 @@
 
 	void (^openPanelHandler)(NSInteger) = ^( NSInteger result )
 	{
+      const NSUInteger startNumRoots = [self.allRoots count];
       NSArray *urlsToOpen = [oPanel URLs];
       
       for (NSURL *aURL in urlsToOpen)
       {
-         [self appendModelParsedFromCOLLADAFileAtURL:aURL];
+         [self appendRootParsedFromCOLLADAFileAtURL:aURL];
       }
+      
+      // Select all newly added roots
+      const NSUInteger numRoots = [self.allRoots count];
+      NSRange selectionRange = 
+         {startNumRoots, numRoots - startNumRoots};
+      self.selectedRoots =
+         [NSIndexSet indexSetWithIndexesInRange:selectionRange];
 	};
 	
    [oPanel beginSheetModalForWindow:[self windowForSheet] 

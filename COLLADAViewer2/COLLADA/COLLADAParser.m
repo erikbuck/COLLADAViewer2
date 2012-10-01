@@ -867,6 +867,8 @@ static const float COLLADAParserMetersPerInch = 0.0254f;
    {
       [self parseXMLDocument:xmlDoc];
       self.root.path = [aURL.path stringByDeletingLastPathComponent];
+      self.root.name =
+         [[aURL.path lastPathComponent] stringByDeletingPathExtension];
    }
 }
 

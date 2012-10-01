@@ -23,6 +23,7 @@
 <NSObject>
 
 @required
-- (NSArray *)roots;
+- (NSArray *)allRoots;
+- (NSIndexSet *)selectedRoots;
 
 @end

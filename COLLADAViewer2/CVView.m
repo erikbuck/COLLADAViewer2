@@ -94,12 +94,22 @@
 
 /////////////////////////////////////////////////////////////////
 // 
+- (BOOL)canBecomeFirstResponder
+{
+    return YES;
+}
+
+
+/////////////////////////////////////////////////////////////////
+// 
 - (void)mouseDown:(NSEvent *)theEvent
 {
 	CGPoint location =
       [self convertPoint:[theEvent locationInWindow] fromView:nil];
  
 	self.iniLocation = location;
+   
+   [self.window makeFirstResponder:self];
 }
 
 
@@ -153,12 +163,15 @@
 {
    if([self.delegate respondsToSelector:@selector(moveUp:)])
    {
+      [self.delegate moveUp:sender];
+   }
+   else
+   {
       if(self.distance > 1.0)
       {
          self.distance *= 0.9f;
       }
       
-      [self.delegate moveUp:sender];
       [[self window] invalidateCursorRectsForView:self];      
    }
 }
@@ -170,10 +183,13 @@
 {
    if([self.delegate respondsToSelector:@selector(moveDown:)])
    {
+      [self.delegate moveDown:sender];
+   }
+   else
+   {
       self.distance *= 1.1f;
       
-      [self.delegate moveDown:sender];
-      [[self window] invalidateCursorRectsForView:self];
+      [[self window] invalidateCursorRectsForView:self];      
    }
 }
 
