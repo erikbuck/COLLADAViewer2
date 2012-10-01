@@ -92,6 +92,8 @@ const float CVMaximumTextureDimension = 256.0;
             options:[NSDictionary dictionaryWithObjectsAndKeys:
                [NSNumber numberWithBool:YES],
                GLKTextureLoaderOriginBottomLeft,
+               [NSNumber numberWithBool:YES],
+               GLKTextureLoaderGenerateMipmaps,
                nil]
             error:&error];
       
@@ -107,7 +109,7 @@ const float CVMaximumTextureDimension = 256.0;
             GL_LINEAR);
          glTexParameteri(GL_TEXTURE_2D, 
             GL_TEXTURE_MIN_FILTER, 
-            GL_NEAREST);
+            GL_NEAREST_MIPMAP_LINEAR);
          glTexParameteri(
             GL_TEXTURE_2D, 
             GL_TEXTURE_WRAP_S, 
