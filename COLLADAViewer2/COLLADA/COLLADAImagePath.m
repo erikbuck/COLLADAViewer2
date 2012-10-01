@@ -30,6 +30,15 @@
 
 /////////////////////////////////////////////////////////////////
 //
+NSString *CVMissingImageName = @"MissingImage";
+
+/////////////////////////////////////////////////////////////////
+//
+const float CVMaximumTextureDimension = 256.0;
+
+
+/////////////////////////////////////////////////////////////////
+//
 - (void)loadImageFromBasePath:(NSString *)aPath;
 {
    NSString *fullPath =
@@ -65,8 +74,8 @@
    else
    {
       NSSize imageSize =
-         NSMakeSize(MIN(256.0f, CGImageGetWidth(image)),
-             MIN(256.0, CGImageGetHeight(image)));
+         NSMakeSize(MIN(CVMaximumTextureDimension, CGImageGetWidth(image)),
+             MIN(CVMaximumTextureDimension, CGImageGetHeight(image)));
       self.image =
          [[NSImage alloc] initWithCGImage:image size:imageSize];
       
@@ -93,10 +102,6 @@
    CGImageRelease(image);
 }
 
-
-/////////////////////////////////////////////////////////////////
-//
-NSString *CVMissingImageName = @"MissingImage";
 
 /////////////////////////////////////////////////////////////////
 //
