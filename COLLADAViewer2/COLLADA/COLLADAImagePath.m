@@ -89,13 +89,33 @@ const float CVMaximumTextureDimension = 256.0;
       
       self.textureInfo =
          [GLKTextureLoader textureWithCGImage:image
-            options:nil
+            options:[NSDictionary dictionaryWithObjectsAndKeys:
+               [NSNumber numberWithBool:YES],
+               GLKTextureLoaderOriginBottomLeft,
+               nil]
             error:&error];
       
       if(nil == self.textureInfo)
       {
          NSLog(@"Could not create texture for image: <%@>\n%@",
             fullPath, error);
+      }
+      else
+      {
+         glTexParameteri(GL_TEXTURE_2D, 
+            GL_TEXTURE_MAG_FILTER, 
+            GL_LINEAR);
+         glTexParameteri(GL_TEXTURE_2D, 
+            GL_TEXTURE_MIN_FILTER, 
+            GL_NEAREST);
+         glTexParameteri(
+            GL_TEXTURE_2D, 
+            GL_TEXTURE_WRAP_S, 
+            GL_REPEAT);
+         glTexParameteri(
+            GL_TEXTURE_2D, 
+            GL_TEXTURE_WRAP_T, 
+            GL_REPEAT);
       }
    }
    
