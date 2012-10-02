@@ -30,13 +30,13 @@
    NSMutableDictionary *materials;
 @property (strong, nonatomic)
    NSMutableDictionary *effects;
-//@property (strong, nonatomic)
-//   NSMutableDictionary *meshes;
-@property (nonatomic, readonly)
+@property (strong, nonatomic, readonly)
    NSNumber *numberOfVertices;
-@property (nonatomic, readonly)
+@property (strong, nonatomic, readonly)
    NSNumber *numberOfTriangles;
-@property (nonatomic, readonly)
+@property (strong, nonatomic, readonly)
    NSNumber *numberOfTextures;
+
+- (NSUInteger)calculateNumberOfTriangles;
 
 @end

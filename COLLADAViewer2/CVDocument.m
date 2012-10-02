@@ -75,6 +75,7 @@
    
    [self appendRoot:coladaParser.root];
    [coladaParser.root loadImages];
+   [coladaParser.root calculateNumberOfTriangles];
    
    [self updateChangeCount:NSChangeReadOtherContents];
 }

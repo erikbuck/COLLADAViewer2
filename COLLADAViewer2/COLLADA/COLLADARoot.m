@@ -7,10 +7,114 @@
 //
 
 #import "COLLADARoot.h"
+#import "COLLADANode.h"
+#import "COLLADAInstance.h"
 #import "COLLADAMeshGeometry.h"
+#import "COLLADAInstanceGeometry.h"
 #import "AGLKMesh.h"
 
 
+/////////////////////////////////////////////////////////////////
+//
+@implementation COLLADAMeshGeometry (triangleCountingAdditions)
+
+/////////////////////////////////////////////////////////////////
+//
+- (NSUInteger)calculateNumberOfTrianglesWithRoot:
+   (COLLADARoot *)aRoot;
+{
+   NSUInteger result = 0;
+   
+   for(NSDictionary *currentCommand in self.mesh.self.commands)
+   {
+      // 3 indices are needed for each triangle
+      result += [[currentCommand objectForKey:@"numberOfIndices"] 
+            unsignedIntegerValue] / 3;
+   }
+   
+   return result;
+}
+
+@end
+
+
+/////////////////////////////////////////////////////////////////
+//
+@implementation COLLADAInstance (triangleCountingAdditions)
+
+/////////////////////////////////////////////////////////////////
+//
+- (NSUInteger)calculateNumberOfTrianglesWithRoot:
+   (COLLADARoot *)aRoot;
+{
+   id referencedNode =
+      [aRoot.nodes objectForKey:self.url];
+   
+   return [referencedNode
+      calculateNumberOfTrianglesWithRoot:aRoot];
+}
+
+@end
+
+
+@implementation COLLADAInstanceGeometry (triangleCountingAdditions)
+
+/////////////////////////////////////////////////////////////////
+//
+- (NSUInteger)calculateNumberOfTrianglesWithRoot:
+   (COLLADARoot *)aRoot;
+{
+   id referencedGeometry =
+      [aRoot.geometries objectForKey:self.url];
+      
+   return [referencedGeometry
+     calculateNumberOfTrianglesWithRoot:aRoot];
+}
+
+@end
+
+
+/////////////////////////////////////////////////////////////////
+//
+@implementation COLLADANode (triangleCountingAdditions)
+
+/////////////////////////////////////////////////////////////////
+//
+- (NSUInteger)calculateNumberOfTrianglesWithRoot:
+   (COLLADARoot *)aRoot;
+{
+   NSUInteger result = 0;
+   
+   for(COLLADAInstance *instance in self.instances)
+   {
+      result += [instance
+         calculateNumberOfTrianglesWithRoot:aRoot];
+   }
+   
+   for(COLLADANode *subnode in self.subnodes)
+   {
+      result += [subnode
+         calculateNumberOfTrianglesWithRoot:aRoot];
+   }
+   
+   return result;
+}
+
+@end
+
+
+/////////////////////////////////////////////////////////////////
+//
+@interface COLLADARoot ()
+
+@property (strong, nonatomic, readwrite)
+   NSNumber *numberOfTriangles;
+
+@end
+
+
+/////////////////////////////////////////////////////////////////
+//
 @implementation COLLADARoot
 
 /////////////////////////////////////////////////////////////////
@@ -29,28 +133,32 @@
 
 /////////////////////////////////////////////////////////////////
 //
-- (NSNumber *)numberOfVertices;
+- (NSUInteger)calculateNumberOfTriangles;
 {
-   NSInteger result = 0;
+   NSUInteger result = 0;
    
-   for(COLLADAMeshGeometry *meshGeometry in self.geometries.allValues)
+   for(COLLADANode *scene in self.visualScenes.allValues)
    {
-      result += [meshGeometry.mesh numberOfIndices];
+      result += [scene calculateNumberOfTrianglesWithRoot:self];
    }
    
-   return [NSNumber numberWithUnsignedInteger:result];
+   self.numberOfTriangles =
+      [NSNumber numberWithUnsignedInteger:result];
+   
+   return result;
 }
 
 
 /////////////////////////////////////////////////////////////////
 //
-- (NSNumber *)numberOfTriangles;
+- (NSNumber *)numberOfVertices;
 {
    NSInteger result = 0;
    
-   for(COLLADAMeshGeometry *meshGeometry in self.geometries.allValues)
+   for(COLLADAMeshGeometry *meshGeometry in
+      self.geometries.allValues)
    {
-      result += [meshGeometry.mesh numberOfIndices] / 3;
+      result += [meshGeometry.mesh numberOfIndices];
    }
    
    return [NSNumber numberWithUnsignedInteger:result];
@@ -142,18 +250,5 @@
    
    return _effects;
 }
-
-
-/////////////////////////////////////////////////////////////////
-//
-//- (NSMutableDictionary *)meshes;
-//{
-//   if(nil == _meshes)
-//   {
-//      _meshes = [NSMutableDictionary dictionary];
-//   }
-//   
-//   return _meshes;
-//}
 
 @end
