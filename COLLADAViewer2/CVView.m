@@ -132,6 +132,23 @@
 
 
 /////////////////////////////////////////////////////////////////
+//
+- (void)scrollWheel:(NSEvent *)theEvent
+{
+   float  deltaY = [theEvent deltaY];
+   
+   if(0 < deltaY)
+   {
+      [self moveDown:theEvent];
+   }
+   else
+   {
+      [self moveUp:theEvent];
+   }
+}
+
+
+/////////////////////////////////////////////////////////////////
 // 
 - (void)keyDown:(NSEvent *)theEvent
 {
@@ -143,6 +160,7 @@
    else
    {
       NSString *characters = [theEvent characters];
+      BOOL didHandleInput = NO;
       
       for(int i = 0 ; i < characters.length; i++)
       {
@@ -151,9 +169,39 @@
          if(character == [@"a" characterAtIndex:0])
          {
             [self moveLeft:nil];
+            didHandleInput = YES;
+         }
+         else if(character == [@"d" characterAtIndex:0])
+         {
+            [self moveRight:nil];
+            didHandleInput = YES;
+         }
+         else if(character == [@"w" characterAtIndex:0])
+         {
+            [self moveUp:nil];
+            didHandleInput = YES;
+         }
+         else if(character == [@"s" characterAtIndex:0])
+         {
+            [self moveDown:nil];
+            didHandleInput = YES;
+         }
+         else if(character == [@"-" characterAtIndex:0])
+         {
+            [self moveUp:nil];
+            didHandleInput = YES;
+         }
+         else if(character == [@"+" characterAtIndex:0])
+         {
+            [self moveDown:theEvent];
+            didHandleInput = YES;
          }
       }
-      [super keyDown:theEvent];
+   
+      if(!didHandleInput)
+      {
+         [super keyDown:theEvent];
+      }
    }
 }
 
@@ -197,12 +245,22 @@
 
 /////////////////////////////////////////////////////////////////
 // 
+const float CVKeyboardBasedRotationDelta = (10.0f);
+
+/////////////////////////////////////////////////////////////////
+// 
 -(IBAction)moveLeft:(id)sender
 {
    if([self.delegate respondsToSelector:@selector(moveLeft:)])
    {
       [self.delegate moveLeft:sender];
-      [[self window] invalidateCursorRectsForView:self];
+   }
+   else
+   {
+   	[self rotateQuaternionWithVector:CGPointMake(
+         -CVKeyboardBasedRotationDelta,
+         0.0f)];
+      [[self window] invalidateCursorRectsForView:self];      
    }
 }
 
@@ -214,7 +272,13 @@
    if([self.delegate respondsToSelector:@selector(moveRight:)])
    {
       [self.delegate moveRight:sender];
-      [[self window] invalidateCursorRectsForView:self];
+   }
+   else
+   {
+   	[self rotateQuaternionWithVector:CGPointMake(
+         CVKeyboardBasedRotationDelta,
+         0.0f)];
+      [[self window] invalidateCursorRectsForView:self];      
    }
 }
 
