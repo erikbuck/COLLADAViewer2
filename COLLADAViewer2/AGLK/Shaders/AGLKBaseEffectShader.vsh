@@ -42,8 +42,10 @@ varying lowp vec4       v_lightColor;
 void main()
 {
    // Texture coords
-   v_texCoords[0] = (vec3(a_texCoords0, 1.0) * u_textureTransforms[0]).xy;
-   v_texCoords[1] = (vec3(a_texCoords1, 1.0) * u_textureTransforms[1]).xy;
+   v_texCoords[0] = (vec3(a_texCoords0, 1.0) *
+      u_textureTransforms[0]).xy;
+   v_texCoords[1] = (vec3(a_texCoords1, 1.0) *
+      u_textureTransforms[1]).xy;
 
    // Lighting
    lowp vec3 normal = normalize(u_normalMatrix * a_normal);
