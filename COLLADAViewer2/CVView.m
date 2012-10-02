@@ -153,6 +153,7 @@
             [self moveLeft:nil];
          }
       }
+      [super keyDown:theEvent];
    }
 }
 

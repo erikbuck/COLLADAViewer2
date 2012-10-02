@@ -48,10 +48,10 @@
 // 
 - (void)aglkViewDidReshape:(AGLKView *)view;
 {
-   const GLfloat    width = [view bounds].size.width;
-   const GLfloat    height = [view bounds].size.height;
+   NSParameterAssert(nil != view);
    
-   NSParameterAssert(0 < height);
+   const GLfloat    width = [view bounds].size.width;
+   const GLfloat    height = MAX(1.0f, [view bounds].size.height);
    
    // Tell OpenGL ES to draw into the full backing area
    glViewport(0, 0, width, height);
