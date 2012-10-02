@@ -120,8 +120,6 @@
 		039A6D071618989500E1CF19 = {
 			isa = PBXGroup;
 			children = (
-				039A6D821618B87000E1CF19 /* OpenGL.framework */,
-				039A6D801618B86700E1CF19 /* GLKit.framework */,
 				039A6D1C1618989500E1CF19 /* COLLADAViewer2 */,
 				039A6D151618989500E1CF19 /* Frameworks */,
 				039A6D131618989500E1CF19 /* Products */,
@@ -139,6 +137,8 @@
 		039A6D151618989500E1CF19 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				039A6D821618B87000E1CF19 /* OpenGL.framework */,
+				039A6D801618B86700E1CF19 /* GLKit.framework */,
 				039A6D161618989500E1CF19 /* Cocoa.framework */,
 				039A6D181618989500E1CF19 /* Other Frameworks */,
 			);

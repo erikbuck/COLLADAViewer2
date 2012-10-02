@@ -88,12 +88,20 @@
 
 /////////////////////////////////////////////////////////////////
 //
-- (void)drawSelectedRootAtIndex:(NSUInteger)index
+- (void)drawSelectedRoots
 {
-   COLLADARoot *root =
-      [self.colladaSource.allRoots objectAtIndex:index];
+   NSAssert(nil != self.selectionController,
+      @"Missing required array controller for table selection.");
    
-   [root drawWithEffect:self.baseEffect];
+   [self.selectionController.selectionIndexes
+      enumerateIndexesUsingBlock:^(NSUInteger index, BOOL *stop)
+   {
+      COLLADARoot *root =
+         [self.selectionController.arrangedObjects
+            objectAtIndex:index];
+      
+      [root drawWithEffect:self.baseEffect];
+   }];
 }
 
 
@@ -119,13 +127,9 @@
          1.0f, // Red 
          1.0f, // Green 
          1.0f, // Blue 
-         1.0f);// Alpha    
-
-   [self.colladaSource.selectedRoots
-      enumerateIndexesUsingBlock:^(NSUInteger index, BOOL *stop)
-   {
-      [self drawSelectedRootAtIndex:index];
-   }];
+         1.0f);// Alpha
+         
+   [self drawSelectedRoots];
 }
 
 @end

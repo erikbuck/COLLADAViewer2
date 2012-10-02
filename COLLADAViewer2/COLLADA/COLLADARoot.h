@@ -30,10 +30,13 @@
    NSMutableDictionary *materials;
 @property (strong, nonatomic)
    NSMutableDictionary *effects;
-@property (strong, nonatomic)
-   NSMutableDictionary *meshes;
-
-@property (strong, nonatomic)
-   NSManagedObjectContext *managedObjectContext;
+//@property (strong, nonatomic)
+//   NSMutableDictionary *meshes;
+@property (nonatomic, readonly)
+   NSNumber *numberOfVertices;
+@property (nonatomic, readonly)
+   NSNumber *numberOfTriangles;
+@property (nonatomic, readonly)
+   NSNumber *numberOfTextures;
 
 @end

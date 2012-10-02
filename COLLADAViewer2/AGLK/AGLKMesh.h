@@ -39,6 +39,8 @@ AGLKMeshVertex;
    *extraVertexData;
 @property (assign, nonatomic, readonly) NSUInteger
    numberOfIndices;
+@property (assign, nonatomic, readonly) NSUInteger
+   numberOfVertices;
 @property (strong, nonatomic, readonly) NSArray
    *commands;
 @property (strong, nonatomic, readonly) NSDictionary

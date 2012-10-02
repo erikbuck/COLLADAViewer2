@@ -14,14 +14,13 @@
 @interface CVDocument ()
 
 @property (strong, nonatomic, readwrite)
-   CVViewController *viewController;
-@property (strong, nonatomic, readwrite)
    NSArray *allRoots;
 
 @end
 
 
 @implementation CVDocument
+
 
 /////////////////////////////////////////////////////////////////
 // 
@@ -52,22 +51,6 @@
    // Override returning the nib file name of the document
    // If you need to use a subclass of NSWindowController or if your document supports multiple NSWindowControllers, you should remove this method and override -makeWindowControllers instead.
    return @"CVDocument";
-}
-
-
-/////////////////////////////////////////////////////////////////
-// 
-- (void)windowControllerDidLoadNib:(NSWindowController *)aController
-{
-   [super windowControllerDidLoadNib:aController];
-
-   self.viewController =
-      [[CVViewController alloc] initWithNibName:nil bundle:nil];
-   self.viewController.view = self.aglkView;
-   self.viewController.colladaSource = self;
-   
-   // Make view the first responder to receive events
-   [self.aglkView.window makeFirstResponder:self.aglkView];
 }
 
 
@@ -116,20 +99,12 @@
 
 	void (^openPanelHandler)(NSInteger) = ^( NSInteger result )
 	{
-      const NSUInteger startNumRoots = [self.allRoots count];
       NSArray *urlsToOpen = [oPanel URLs];
       
       for (NSURL *aURL in urlsToOpen)
       {
          [self appendRootParsedFromCOLLADAFileAtURL:aURL];
       }
-      
-      // Select all newly added roots
-      const NSUInteger numRoots = [self.allRoots count];
-      NSRange selectionRange = 
-         {startNumRoots, numRoots - startNumRoots};
-      self.selectedRoots =
-         [NSIndexSet indexSetWithIndexesInRange:selectionRange];
 	};
 	
    [oPanel beginSheetModalForWindow:[self windowForSheet] 

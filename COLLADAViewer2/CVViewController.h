@@ -14,16 +14,6 @@
 @interface CVViewController : AGLKViewController
 
 @property (weak, nonatomic, readwrite)
-   id <CVCOLLADASource>colladaSource;
-
-@end
-
-
-@protocol CVCOLLADASource
-<NSObject>
-
-@required
-- (NSArray *)allRoots;
-- (NSIndexSet *)selectedRoots;
+   IBOutlet NSArrayController *selectionController;
 
 @end

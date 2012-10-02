@@ -7,6 +7,9 @@
 //
 
 #import "COLLADARoot.h"
+#import "COLLADAMeshGeometry.h"
+#import "AGLKMesh.h"
+
 
 @implementation COLLADARoot
 
@@ -21,6 +24,45 @@
     }
    
     return self;
+}
+
+
+/////////////////////////////////////////////////////////////////
+//
+- (NSNumber *)numberOfVertices;
+{
+   NSInteger result = 0;
+   
+   for(COLLADAMeshGeometry *meshGeometry in self.geometries.allValues)
+   {
+      result += [meshGeometry.mesh numberOfIndices];
+   }
+   
+   return [NSNumber numberWithUnsignedInteger:result];
+}
+
+
+/////////////////////////////////////////////////////////////////
+//
+- (NSNumber *)numberOfTriangles;
+{
+   NSInteger result = 0;
+   
+   for(COLLADAMeshGeometry *meshGeometry in self.geometries.allValues)
+   {
+      result += [meshGeometry.mesh numberOfIndices] / 3;
+   }
+   
+   return [NSNumber numberWithUnsignedInteger:result];
+}
+
+
+/////////////////////////////////////////////////////////////////
+//
+- (NSNumber *)numberOfTextures;
+{
+   return [NSNumber numberWithUnsignedInteger:
+      self.imagePaths.count];
 }
 
 
@@ -104,14 +146,14 @@
 
 /////////////////////////////////////////////////////////////////
 //
-- (NSMutableDictionary *)meshes;
-{
-   if(nil == _meshes)
-   {
-      _meshes = [NSMutableDictionary dictionary];
-   }
-   
-   return _meshes;
-}
+//- (NSMutableDictionary *)meshes;
+//{
+//   if(nil == _meshes)
+//   {
+//      _meshes = [NSMutableDictionary dictionary];
+//   }
+//   
+//   return _meshes;
+//}
 
 @end
