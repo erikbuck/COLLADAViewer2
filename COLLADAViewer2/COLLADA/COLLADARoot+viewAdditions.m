@@ -10,22 +10,20 @@
 #import "COLLADANode.h"
 #import "COLLADAMeshGeometry.h"
 #import "COLLADAInstanceGeometry.h"
-#import "COLLADAEffect.h"
-#import "AGLKEffect.h"
 #import "COLLADAImagePath.h"
+#import "AGLKEffect.h"
 #import "AGLKMesh+viewAdditions.h"
 
 #undef __gl_h_
 #import <GLKit/GLKit.h>
 
 
+/////////////////////////////////////////////////////////////////
+//
 @implementation COLLADAMeshGeometry (viewAdditions)
 
-- (void)prepareToDrawWithEffect:(AGLKEffect *)anEffect;
-{
-}
-
-
+/////////////////////////////////////////////////////////////////
+//
 - (void)drawWithEffect:(AGLKEffect *)anEffect
    root:(COLLADARoot *)aRoot;
 {
@@ -37,13 +35,12 @@
 @end
 
 
+/////////////////////////////////////////////////////////////////
+//
 @implementation COLLADAInstance (viewAdditions)
 
-- (void)prepareToDrawWithEffect:(AGLKEffect *)anEffect;
-{
-}
-
-
+/////////////////////////////////////////////////////////////////
+//
 - (void)drawWithEffect:(AGLKEffect *)anEffect
    root:(COLLADARoot *)aRoot;
 {
@@ -65,11 +62,8 @@
 
 @implementation COLLADAInstanceGeometry (viewAdditions)
 
-- (void)prepareToDrawWithEffect:(AGLKEffect *)anEffect;
-{
-}
-
-
+/////////////////////////////////////////////////////////////////
+//
 - (void)drawWithEffect:(AGLKEffect *)anEffect
    root:(COLLADARoot *)aRoot;
 {
@@ -82,49 +76,25 @@
       return;
    }
    
-   anEffect.texture2d0.name = 0;
-   anEffect.texture2d0.target = 0;
-
-   COLLADAInstance *bindMaterial =
-      [self.bindMaterials anyObject];
-   if(nil != bindMaterial)
+   if(nil == self.textureInfo)
    {
-      COLLADAResource *referencedMaterial =
-         [aRoot.materials objectForKey:bindMaterial.url];
+      anEffect.texture2d0.name = 0;
+      anEffect.texture2d0.target = 0;
+
+      COLLADAInstance *bindMaterial = [self.bindMaterials anyObject];
       
-      if(nil == referencedMaterial)
+      if(nil != bindMaterial)
       {
-         NSLog(@"instance_geometry references unknown material");
+         self.textureInfo =
+            [self textureForMaterialBinding:bindMaterial
+               root:aRoot];
       }
-      else
-      {
-         COLLADAInstance *instanceEffect =
-            referencedMaterial.instances.anyObject;
-         
-         COLLADAEffect *referencedEffect =
-            [aRoot.effects objectForKey:instanceEffect.url];
-         
-         if(nil == referencedEffect)
-         {
-            NSLog(@"instance_geometry references unknown effect");
-         }
-         else
-         {
-            COLLADAImagePath *referencedImagePath =
-               [aRoot.imagePaths
-                  objectForKey:referencedEffect.diffuseTextureImagePathURL];
-            
-            if(nil != referencedImagePath)
-            {
-               anEffect.texture2d0.name =
-                  referencedImagePath.textureInfo.name;
-               anEffect.texture2d0.target =
-                  referencedImagePath.textureInfo.target;
-               
-//               NSLog(@"%@ %d", referencedImagePath.uid, anEffect.texture2d0.name);
-            }
-         }
-      }
+   }
+   
+   if(nil != self.textureInfo)
+   {
+      anEffect.texture2d0.name = self.textureInfo.name;
+      anEffect.texture2d0.target = self.textureInfo.target;
    }
    
    [referencedGeometry drawWithEffect:anEffect
@@ -134,13 +104,12 @@
 @end
 
 
+/////////////////////////////////////////////////////////////////
+//
 @implementation COLLADANode (viewAdditions)
 
-- (void)prepareToDrawWithEffect:(AGLKEffect *)anEffect;
-{
-}
-
-
+/////////////////////////////////////////////////////////////////
+//
 - (void)drawWithEffect:(AGLKEffect *)anEffect
    root:(COLLADARoot *)aRoot;
 {
@@ -169,13 +138,175 @@
 @end
 
 
-@implementation COLLADARoot (viewAdditions)
+/////////////////////////////////////////////////////////////////
+//
+@implementation COLLADAImagePath (viewAdditions)
 
-- (void)prepareToDrawWithEffect:(AGLKEffect *)anEffect;
+/////////////////////////////////////////////////////////////////
+//
+NSString *CVMissingImageName = @"MissingImage";
+
+
+/////////////////////////////////////////////////////////////////
+//
+- (GLKTextureInfo *)placeholderTextureInfo;
 {
+   GLKTextureInfo *result = nil;
+   
+   NSString *path =
+      [[NSBundle bundleForClass:[self class]]
+         pathForImageResource:CVMissingImageName];
+   
+   if(nil == path)
+   {
+      NSLog(@"Could not find placeholder for missing image.");
+   }
+   else
+   {
+      NSError *error = nil;
+      
+      result =
+         [GLKTextureLoader textureWithContentsOfFile:path
+            options:[NSDictionary dictionaryWithObjectsAndKeys:
+               [NSNumber numberWithBool:YES],
+               GLKTextureLoaderOriginBottomLeft,
+               [NSNumber numberWithBool:YES],
+               GLKTextureLoaderGenerateMipmaps,
+               nil]
+            error:&error];
+      
+      if(nil == self.textureInfo)
+      {
+         NSLog(@"Could not create texture for image: <%@>\n%@",
+            path, error);
+      }
+      else
+      {
+         glTexParameteri(GL_TEXTURE_2D, 
+            GL_TEXTURE_MAG_FILTER, 
+            GL_LINEAR);
+         glTexParameteri(GL_TEXTURE_2D, 
+            GL_TEXTURE_MIN_FILTER, 
+            GL_NEAREST_MIPMAP_LINEAR);
+         glTexParameteri(
+            GL_TEXTURE_2D, 
+            GL_TEXTURE_WRAP_S, 
+            GL_REPEAT);
+         glTexParameteri(
+            GL_TEXTURE_2D, 
+            GL_TEXTURE_WRAP_T, 
+            GL_REPEAT);
+      }
+   }
+   
+   return result;
 }
 
 
+/////////////////////////////////////////////////////////////////
+//
+const float CVMaximumTextureDimension = 256.0;
+
+
+/////////////////////////////////////////////////////////////////
+//
+- (void)loadImageFromBasePath:(NSString *)aPath;
+{
+   NSString *fullPath =
+      [aPath stringByAppendingPathComponent:self.path];
+   
+   if(nil == fullPath)
+   {
+      NSLog(@"Invalid image path could not be loaded");
+      self.textureInfo = [self placeholderTextureInfo];
+      return;
+   }
+   
+	CGImageRef image = NULL;
+   
+   {
+      CFURLRef url = CFURLCreateWithFileSystemPath(
+         kCFAllocatorDefault,
+         (__bridge CFStringRef)(fullPath),
+         kCFURLPOSIXPathStyle,
+         false);
+      CGImageSourceRef imageSource =
+         CGImageSourceCreateWithURL(url, nil);
+      image =
+         CGImageSourceCreateImageAtIndex(imageSource, 0, nil);
+      CFRelease(url);
+      CFRelease(imageSource);
+   }
+   
+   if(NULL == image)
+   {
+      NSLog(@"Image path could not be loaded: <%@>",
+         fullPath);
+      self.textureInfo = [self placeholderTextureInfo];
+   }
+   else
+   {
+      NSSize imageSize =
+         NSMakeSize(MIN(CVMaximumTextureDimension, CGImageGetWidth(image)),
+             MIN(CVMaximumTextureDimension, CGImageGetHeight(image)));
+      self.image =
+         [[NSImage alloc] initWithCGImage:image size:imageSize];
+      
+      if(nil == self.image)
+      {
+         NSLog(@"Image could not be cached: <%@>",
+            fullPath);
+      }
+
+      NSError *error = nil;
+      
+      self.textureInfo =
+         [GLKTextureLoader textureWithCGImage:image
+            options:[NSDictionary dictionaryWithObjectsAndKeys:
+               [NSNumber numberWithBool:YES],
+               GLKTextureLoaderOriginBottomLeft,
+               [NSNumber numberWithBool:YES],
+               GLKTextureLoaderGenerateMipmaps,
+               nil]
+            error:&error];
+      
+      if(nil == self.textureInfo)
+      {
+         NSLog(@"Could not create texture for image: <%@>\n%@",
+            fullPath, error);
+         self.textureInfo = [self placeholderTextureInfo];
+      }
+      else
+      {
+         glTexParameteri(GL_TEXTURE_2D, 
+            GL_TEXTURE_MAG_FILTER, 
+            GL_LINEAR);
+         glTexParameteri(GL_TEXTURE_2D, 
+            GL_TEXTURE_MIN_FILTER, 
+            GL_NEAREST_MIPMAP_LINEAR);
+         glTexParameteri(
+            GL_TEXTURE_2D, 
+            GL_TEXTURE_WRAP_S, 
+            GL_REPEAT);
+         glTexParameteri(
+            GL_TEXTURE_2D, 
+            GL_TEXTURE_WRAP_T, 
+            GL_REPEAT);
+      }
+   }
+   
+   CGImageRelease(image);
+}
+
+@end
+
+
+/////////////////////////////////////////////////////////////////
+//
+@implementation COLLADARoot (viewAdditions)
+
+/////////////////////////////////////////////////////////////////
+//
 - (void)drawWithEffect:(AGLKEffect *)anEffect;
 {
    GLKMatrix4 savedMatrix =
@@ -192,6 +323,17 @@
    
    anEffect.transform.modelviewMatrix =
       savedMatrix;
+}
+
+
+/////////////////////////////////////////////////////////////////
+//
+- (void)loadImages
+{
+   for(COLLADAImagePath *imagePath in self.imagePaths.allValues)
+   {
+      [imagePath loadImageFromBasePath:self.path];
+   }
 }
 
 @end

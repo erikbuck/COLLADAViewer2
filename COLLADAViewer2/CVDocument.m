@@ -8,7 +8,7 @@
 
 #import "CVDocument.h"
 #import "COLLADAParser.h"
-#import "COLLADARoot.h"
+#import "COLLADARoot+viewAdditions.h"
 
 
 @interface CVDocument ()
@@ -91,6 +91,7 @@
    [coladaParser parseCOLLADAFileAtURL:aURL];
    
    [self appendRoot:coladaParser.root];
+   [coladaParser.root loadImages];
    
    [self updateChangeCount:NSChangeReadOtherContents];
 }

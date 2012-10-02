@@ -10,9 +10,20 @@
 #import "COLLADAInstance.h"
 
 @class COLLADABindMaterial;
+@class COLLADARoot;
+@class GLKTextureInfo;
+
 
 @interface COLLADAInstanceGeometry : COLLADAInstance
 
-@property (nonatomic, retain) NSSet *bindMaterials;
+@property (nonatomic, retain)
+   NSSet *bindMaterials;
+
+@property (nonatomic, strong)
+   GLKTextureInfo *textureInfo;
+
+
+- (GLKTextureInfo *)textureForMaterialBinding:(COLLADAInstance *)bindMaterial
+   root:(COLLADARoot *)aRoot;
 
 @end

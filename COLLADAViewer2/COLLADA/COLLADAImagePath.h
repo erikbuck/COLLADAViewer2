@@ -27,6 +27,4 @@
 @property (nonatomic, assign)
    GLKMatrix4 textureTransform;
 
-- (void)loadImageFromBasePath:(NSString *)aPath;
-
 @end

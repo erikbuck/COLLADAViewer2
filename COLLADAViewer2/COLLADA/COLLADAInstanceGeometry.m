@@ -7,6 +7,10 @@
 //
 
 #import "COLLADAInstanceGeometry.h"
+#import "COLLADARoot.h"
+#import "COLLADAResource.h"
+#import "COLLADAEffect.h"
+#import "COLLADAImagePath.h"
 
 
 @implementation COLLADAInstanceGeometry
@@ -23,5 +27,45 @@
    return _bindMaterials;
 }
 
+
+- (GLKTextureInfo *)textureForMaterialBinding:(COLLADAInstance *)bindMaterial
+   root:(COLLADARoot *)aRoot;
+{
+   GLKTextureInfo *result = nil;
+   
+   COLLADAResource *referencedMaterial =
+      [aRoot.materials objectForKey:bindMaterial.url];
+   
+   if(nil == referencedMaterial)
+   {
+      NSLog(@"instance_geometry references unknown material");
+   }
+   else
+   {
+      COLLADAInstance *instanceEffect =
+         referencedMaterial.instances.anyObject;
+      
+      COLLADAEffect *referencedEffect =
+         [aRoot.effects objectForKey:instanceEffect.url];
+      
+      if(nil == referencedEffect)
+      {
+         NSLog(@"instance_geometry references unknown effect");
+      }
+      else
+      {
+         COLLADAImagePath *referencedImagePath =
+            [aRoot.imagePaths
+               objectForKey:referencedEffect.diffuseTextureImagePathURL];
+         
+         if(nil != referencedImagePath)
+         {
+            result = referencedImagePath.textureInfo;
+         }
+      }
+   }
+   
+   return result;
+}
 
 @end

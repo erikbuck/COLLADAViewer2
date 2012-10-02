@@ -13,7 +13,8 @@
 
 @interface COLLADARoot (viewAdditions)
 
-- (void)prepareToDrawWithEffect:(AGLKEffect *)anEffect;
 - (void)drawWithEffect:(AGLKEffect *)anEffect;
+
+- (void)loadImages;
 
 @end
