@@ -247,8 +247,11 @@ const float CVMaximumTextureDimension = 256.0;
    else
    {
       NSSize imageSize =
-         NSMakeSize(MIN(CVMaximumTextureDimension, CGImageGetWidth(image)),
-             MIN(CVMaximumTextureDimension, CGImageGetHeight(image)));
+         NSMakeSize(
+            MIN(CVMaximumTextureDimension,
+               CGImageGetWidth(image)),
+            MIN(CVMaximumTextureDimension,
+               CGImageGetHeight(image)));
       self.image =
          [[NSImage alloc] initWithCGImage:image size:imageSize];
       

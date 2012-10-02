@@ -28,7 +28,10 @@
 }
 
 
-- (GLKTextureInfo *)textureForMaterialBinding:(COLLADAInstance *)bindMaterial
+/////////////////////////////////////////////////////////////////
+//
+- (GLKTextureInfo *)textureForMaterialBinding:
+   (COLLADAInstance *)bindMaterial
    root:(COLLADARoot *)aRoot;
 {
    GLKTextureInfo *result = nil;
