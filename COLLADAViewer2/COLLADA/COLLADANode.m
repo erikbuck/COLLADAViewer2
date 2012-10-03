@@ -7,7 +7,6 @@
 //
 
 #import "COLLADANode.h"
-#import "COLLADANode.h"
 
 
 @implementation COLLADANode

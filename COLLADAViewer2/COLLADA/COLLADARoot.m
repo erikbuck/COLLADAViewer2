@@ -97,6 +97,8 @@
          calculateNumberOfTrianglesWithRoot:aRoot];
    }
    
+   self.numberOfTriangles = result;
+   
    return result;
 }
 
@@ -249,6 +251,24 @@
    }
    
    return _effects;
+}
+
+
+/////////////////////////////////////////////////////////////////
+//
++keyPathsForValuesAffectingInspectableNodes
+{
+   return [NSSet setWithObjects:
+      @"nodes",
+      nil];
+}
+
+
+/////////////////////////////////////////////////////////////////
+//
+- (NSArray *)inspectableNodes;
+{
+   return self.nodes.allValues;
 }
 
 @end

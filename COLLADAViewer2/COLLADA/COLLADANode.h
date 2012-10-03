@@ -14,8 +14,13 @@
 
 @interface COLLADANode : COLLADAResource
 
-@property (nonatomic, assign) GLKMatrix4 transform;
-@property (nonatomic, retain) NSSet *subnodes;
-@property (nonatomic, retain) COLLADANode *parent;
+@property (nonatomic, assign)
+   GLKMatrix4 transform;
+@property (nonatomic, retain)
+   NSSet *subnodes;
+@property (nonatomic, retain)
+   COLLADANode *parent;
+@property (nonatomic, assign) 
+   NSUInteger numberOfTriangles;
 
 @end

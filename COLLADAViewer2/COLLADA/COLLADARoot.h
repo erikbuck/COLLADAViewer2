@@ -37,6 +37,9 @@
 @property (strong, nonatomic, readonly)
    NSNumber *numberOfTextures;
 
+@property (strong, nonatomic)
+   NSArray *inspectableNodes;
+
 - (NSUInteger)calculateNumberOfTriangles;
 
 @end

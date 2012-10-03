@@ -533,6 +533,15 @@ static const float COLLADAParserMetersPerInch = 0.0254f;
    {
       newNode.uid = [@"#" stringByAppendingString:idString];
    }
+   else
+   {  // Nodes need to have unique IDs. Create one if
+      // necessary
+      static NSInteger counter = 0;
+      
+      newNode.uid =
+         [NSString stringWithFormat:@"Anonymous%ld",
+         counter++];
+   }
    
    NSXMLNode *nodeNameNode = [element attributeForName:@"name"];
    NSString *nodeName = [nodeNameNode objectValue];
@@ -581,7 +590,7 @@ static const float COLLADAParserMetersPerInch = 0.0254f;
 // library_visual_scenes element and updates receiver's internal 
 // state accordingly.
 - (void)parseLibraryVisualScenesElements:(NSArray *)elements;
-{  
+{
    if(1 != elements.count)
    {
       NSLog(@"Incorrect number of \"library_visual_scenes\" found");
@@ -597,19 +606,30 @@ static const float COLLADAParserMetersPerInch = 0.0254f;
          COLLADANode *newScene =
             [[COLLADANode alloc] init];
          
+         // Name
+         NSXMLNode *nameNode =
+            [visualSceneElement attributeForName:@"name"];
+         NSString *name = [nameNode objectValue];
+         newScene.name = name;
+         
          // URL
          NSXMLNode *idNode =
             [visualSceneElement attributeForName:@"id"];
          NSString *idString = [idNode objectValue];
          newScene.uid = [@"#" stringByAppendingString:idString];
          
+         if(nil == newScene.uid)
+         {  // Nodes need to have unique IDs. Create one if
+            // necessary
+            static NSInteger counter = 0;
+   
+            newScene.uid =
+               [NSString stringWithFormat:@"AnonymousScene%ld",
+               counter++];
+         }
+         
          [self.root.visualScenes setObject:newScene forKey:newScene.uid];
-
-         // Name
-         NSXMLNode *nameNode =
-            [visualSceneElement attributeForName:@"name"];
-         NSString *name = [nameNode objectValue];
-         newScene.name = name;
+         [self.root.nodes setObject:newScene forKey:newScene.uid];
          
          NSArray *nodes =
             [visualSceneElement elementsForName:@"node"];
