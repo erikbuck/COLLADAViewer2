@@ -8,9 +8,22 @@
 
 #import "COLLADAInstance.h"
 #import "COLLADAResource.h"
+#import "COLLADARoot.h"
 
 
 @implementation COLLADAInstance
 
+
+/////////////////////////////////////////////////////////////////
+//
+- (NSUInteger)calculateNumberOfTrianglesWithRoot:
+   (COLLADARoot *)aRoot;
+{
+   id referencedNode =
+      [aRoot.nodes objectForKey:self.url];
+   
+   return [referencedNode
+      calculateNumberOfTrianglesWithRoot:aRoot];
+}
 
 @end

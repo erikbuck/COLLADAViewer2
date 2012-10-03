@@ -8,12 +8,16 @@
 
 #import <Foundation/Foundation.h>
 
-@class COLLADAInstance;
+@class COLLADARoot;
+
 
 @interface COLLADAResource : NSObject
 
 @property (nonatomic, retain) NSString *uid;
 @property (nonatomic, retain) NSString *name;
 @property (nonatomic, retain) NSSet *instances;
+
+- (NSUInteger)calculateNumberOfTrianglesWithRoot:
+   (COLLADARoot *)aRoot;
 
 @end

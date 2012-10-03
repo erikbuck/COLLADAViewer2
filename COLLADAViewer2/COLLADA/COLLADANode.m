@@ -7,8 +7,22 @@
 //
 
 #import "COLLADANode.h"
+#import "COLLADARoot.h"
+#import "COLLADAInstance.h"
 
 
+/////////////////////////////////////////////////////////////////
+//
+@interface COLLADANode ()
+
+@property (nonatomic, assign, readwrite)
+   NSUInteger numberOfTriangles;
+
+@end
+
+
+/////////////////////////////////////////////////////////////////
+//
 @implementation COLLADANode
 
 /////////////////////////////////////////////////////////////////
@@ -35,6 +49,26 @@
    }
    
    return _subnodes;
+}
+
+
+/////////////////////////////////////////////////////////////////
+//
+- (NSUInteger)calculateNumberOfTrianglesWithRoot:
+   (COLLADARoot *)aRoot;
+{
+   NSUInteger result =
+      [super calculateNumberOfTrianglesWithRoot:aRoot];
+   
+   for(COLLADANode *subnode in self.subnodes)
+   {
+      result += [subnode
+         calculateNumberOfTrianglesWithRoot:aRoot];
+   }
+   
+   self.numberOfTriangles = result;
+   
+   return result;
 }
 
 @end

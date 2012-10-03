@@ -9,10 +9,14 @@
 #import <Foundation/Foundation.h>
 
 @class COLLADAResource;
+@class COLLADARoot;
 
 @interface COLLADAInstance : NSObject
 
 @property (nonatomic, retain) NSString *url;
 @property (nonatomic, retain) NSString *name;
+
+- (NSUInteger)calculateNumberOfTrianglesWithRoot:
+   (COLLADARoot *)aRoot;
 
 @end

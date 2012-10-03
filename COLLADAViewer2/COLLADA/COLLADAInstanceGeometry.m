@@ -71,4 +71,17 @@
    return result;
 }
 
+
+/////////////////////////////////////////////////////////////////
+//
+- (NSUInteger)calculateNumberOfTrianglesWithRoot:
+   (COLLADARoot *)aRoot;
+{
+   id referencedGeometry =
+      [aRoot.geometries objectForKey:self.url];
+      
+   return [referencedGeometry
+     calculateNumberOfTrianglesWithRoot:aRoot];
+}
+
 @end

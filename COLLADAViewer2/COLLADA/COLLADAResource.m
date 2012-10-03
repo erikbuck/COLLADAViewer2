@@ -24,4 +24,21 @@
    return _instances;
 }
 
+
+/////////////////////////////////////////////////////////////////
+//
+- (NSUInteger)calculateNumberOfTrianglesWithRoot:
+   (COLLADARoot *)aRoot;
+{
+   NSUInteger result = 0;
+   
+   for(COLLADAInstance *instance in self.instances)
+   {
+      result += [instance
+         calculateNumberOfTrianglesWithRoot:aRoot];
+   }
+   
+   return result;
+}
+
 @end

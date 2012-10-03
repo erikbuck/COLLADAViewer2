@@ -11,6 +11,7 @@
 #import "COLLADAResource.h"
 
 @class COLLADANode;
+@class COLLADARoot;
 
 @interface COLLADANode : COLLADAResource
 
@@ -20,7 +21,7 @@
    NSSet *subnodes;
 @property (nonatomic, retain)
    COLLADANode *parent;
-@property (nonatomic, assign) 
+@property (nonatomic, assign, readonly)
    NSUInteger numberOfTriangles;
 
 @end

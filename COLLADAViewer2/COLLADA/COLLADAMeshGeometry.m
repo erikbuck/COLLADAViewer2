@@ -7,6 +7,7 @@
 //
 
 #import "COLLADAMeshGeometry.h"
+#import "COLLADARoot.h"
 #import "AGLKMesh.h"
 
 
@@ -22,6 +23,24 @@
    }
    
    return _mesh;
+}
+
+
+/////////////////////////////////////////////////////////////////
+//
+- (NSUInteger)calculateNumberOfTrianglesWithRoot:
+   (COLLADARoot *)aRoot;
+{
+   NSUInteger result = 0;
+   
+   for(NSDictionary *currentCommand in self.mesh.self.commands)
+   {
+      // 3 indices are needed for each triangle
+      result += [[currentCommand objectForKey:@"numberOfIndices"] 
+            unsignedIntegerValue] / 3;
+   }
+   
+   return result;
 }
 
 @end
