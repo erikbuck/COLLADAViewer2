@@ -207,7 +207,7 @@ static const float COLLADAParserMetersPerInch = 0.0254f;
              if(nil == imagePath.url)
              {
                 NSLog(
-                   @"Texture image path is niether a valid file system path nor a valid URL: <%@>",
+                   @"Image path not file system path or a valid URL: <%@>",
                    path);
              }
          }
@@ -358,11 +358,11 @@ static const float COLLADAParserMetersPerInch = 0.0254f;
             
             cumulativeTransforms = 
             GLKMatrix4Rotate(
-                                 cumulativeTransforms,
-                                 GLKMathDegreesToRadians(angleDeg),
-                                 x, 
-                                 y, 
-                                 z);
+               cumulativeTransforms,
+               GLKMathDegreesToRadians(angleDeg),
+               x, 
+               y, 
+               z);
          }
       }
       else if([subElement.name isEqualToString:@"scale"])
@@ -385,10 +385,10 @@ static const float COLLADAParserMetersPerInch = 0.0254f;
             
             cumulativeTransforms = 
             GLKMatrix4Scale(
-                                cumulativeTransforms, 
-                                x, 
-                                y, 
-                                z);
+               cumulativeTransforms, 
+               x, 
+               y, 
+               z);
          }
       }
       else if([subElement.name isEqualToString:@"matrix"])
@@ -785,7 +785,8 @@ static const float COLLADAParserMetersPerInch = 0.0254f;
                   for(NSXMLElement *initFromElement in initFromElements)
                   {
                      newEffect.diffuseTextureImagePathURL =
-                        [@"#" stringByAppendingString:initFromElement.objectValue];
+                        [@"#" stringByAppendingString:
+                        initFromElement.objectValue];
                   }
                }
             }
