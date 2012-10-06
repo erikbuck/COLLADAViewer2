@@ -16,7 +16,7 @@
 @interface COLLADAImagePath : COLLADAResource
 
 @property (nonatomic, retain)
-   NSString *path;
+   NSURL *url;
 
 @property (nonatomic, retain)
    NSImage *image;

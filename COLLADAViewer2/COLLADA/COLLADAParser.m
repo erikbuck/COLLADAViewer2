@@ -187,8 +187,33 @@ static const float COLLADAParserMetersPerInch = 0.0254f;
       COLLADAImagePath *imagePath =
          [[COLLADAImagePath alloc] init];
       imagePath.uid = imageID;
-      imagePath.path = path;
+
+      {  // Check if the file path exists and use it if it does. If it doesn't
+         // exist, assume the "path" is really a URL. The COLLADA spec is
+         // ambiguous about whether <init_from> elements are paths or URLs.
+         BOOL isDirectory = NO;
+         BOOL fileExists = [[NSFileManager defaultManager] fileExistsAtPath:path
+            isDirectory:&isDirectory];
+         
+         if(fileExists && !isDirectory)
+         {
+            imagePath.url = [[NSURL alloc] initFileURLWithPath:path];
+         }
+         else
+         {   // Path may actually be a ULR with % escapes and all. If so, try
+             // using the "path" as a properly formatted URL
+             imagePath.url = [NSURL URLWithString:path];
+            
+             if(nil == imagePath.url)
+             {
+                NSLog(
+                   @"Texture image path is niether a valid file system path nor a valid URL: <%@>",
+                   path);
+             }
+         }
+      }
       
+
       [self.root.imagePaths
          setObject:imagePath forKey:imageID];
    }
