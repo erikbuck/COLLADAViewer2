@@ -124,7 +124,13 @@
 
 
 /////////////////////////////////////////////////////////////////
-//
+// Creates and returns a dictionary containing plists of models
+// keyed by model name. Model names are made unique if any
+// conflict. All models share vertices appended into
+// consolidatedMesh. The total number of vertices appended by
+// this method will not excede the capacity consolidatedMesh.
+// Excess vertices are discarded and models may be corrupted as
+// a result.
 - (NSDictionary *)allModelsPlistRepresentationWithMesh:
    (AGLKMesh *)consolidatedMesh;
 {
@@ -159,6 +165,35 @@
 
 
 /////////////////////////////////////////////////////////////////
+// Returns a plist representation of the first image path found
+// in allRoots. Returns an empty dictionary if no image paths
+// are available.
+- (NSDictionary *)modelplistTextureInfoPlist
+{
+   COLLADAImagePath *anyImagePath = nil;
+   
+   for(COLLADARoot *root in self.allRoots)
+   {
+     if(nil == anyImagePath)
+     {
+         anyImagePath =
+            [[root.imagePaths allValues] lastObject];
+     }
+   }
+   
+   NSDictionary *textureImageInfoPlist =
+      [NSDictionary dictionary];
+   
+   if(nil != anyImagePath)
+   {
+      textureImageInfoPlist = [anyImagePath plistRepresentation];
+   }
+   
+   return textureImageInfoPlist;
+}
+
+
+/////////////////////////////////////////////////////////////////
 //
 - (IBAction)exportModelplist:(id)sender;
 {
@@ -174,32 +209,22 @@
 
 	void (^savePanelHandler)(NSInteger) = ^( NSInteger result )
 	{
-      NSLog(@"%@", [sPanel URL]);
+      // This new empty mesh will accumulate the vertices from
+      // all models to be exported
       AGLKMesh *consolidatedMesh =
          [[AGLKMesh alloc] init];
-      COLLADARoot *anyRoot =
-         [self.allRoots lastObject];
-      COLLADAImagePath *anyImagePath =
-         [[anyRoot.imagePaths allValues] lastObject];
-      NSDictionary *textureImageInfo =
-         [NSDictionary dictionary];
       
-      if(nil != anyImagePath)
-      {
-         textureImageInfo = [anyImagePath plistRepresentation];
-      }
-      
-      NSData *modelPlist =
+      NSData *modelPlistData =
          [NSKeyedArchiver archivedDataWithRootObject:
             [NSDictionary dictionaryWithObjectsAndKeys:
-               textureImageInfo,
+               [self modelplistTextureInfoPlist],
                @"textureImageInfo",
                [self allModelsPlistRepresentationWithMesh:consolidatedMesh],
                @"models",
                consolidatedMesh.plistRepresentation,
                @"mesh",
                nil]];
-      [modelPlist writeToURL:[sPanel URL] atomically:YES];
+      [modelPlistData writeToURL:[sPanel URL] atomically:YES];
 	};
 	
    [sPanel beginSheetModalForWindow:[self windowForSheet] 
