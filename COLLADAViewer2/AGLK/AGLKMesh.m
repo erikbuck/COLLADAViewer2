@@ -213,8 +213,8 @@
 }
 
 
-- (AGLKAxisAllignedBoundingBox)axisAlignedBoundingBoxForCommandsInRange:
-   (NSRange)aRange;
+- (AGLKAxisAllignedBoundingBox)
+   axisAlignedBoundingBoxForCommandsInRange:(NSRange)aRange;
 {
    AGLKAxisAllignedBoundingBox result;
          
@@ -223,8 +223,10 @@
       const NSUInteger lastCommandIndex = 
          (aRange.location + aRange.length) - 1;
 
-      NSParameterAssert(aRange.location < [self.commands count]);
-      NSParameterAssert(lastCommandIndex < [self.commands count]);
+      NSParameterAssert(aRange.location <
+         [self.commands count]);
+      NSParameterAssert(lastCommandIndex <
+         [self.commands count]);
 
       AGLKMeshVertex *vertexAttributes = (AGLKMeshVertex *)
          [self.vertexData bytes];
@@ -247,7 +249,8 @@
          {
             hasFoundFirstVertex = YES;
             GLushort  index = indices[0 + firstIndex];
-            AGLKMeshVertex currentVertex = vertexAttributes[index];
+            AGLKMeshVertex currentVertex =
+               vertexAttributes[index];
             
             result.min.x = currentVertex.position.x;
             result.min.y = currentVertex.position.y;
@@ -259,7 +262,8 @@
          for(int j = 1; j < numberOfIndices; j++)
          {
             GLushort  index = indices[j + firstIndex];
-            AGLKMeshVertex currentVertex = vertexAttributes[index];
+            AGLKMeshVertex currentVertex =
+               vertexAttributes[index];
             
             result.min.x = 
                MIN(currentVertex.position.x, 
@@ -363,7 +367,8 @@
          0.0f
       };
       textureCoords =
-         GLKMatrix3MultiplyVector3(textureTransform, textureCoords);
+         GLKMatrix3MultiplyVector3(textureTransform,
+         textureCoords);
       
       vertex.texCoords0 =
          GLKVector2Make(textureCoords.x, textureCoords.y);
@@ -439,21 +444,25 @@
    {
       NSUInteger offsetIndex = 
          startNumberOfIndices + [aMesh indexAtIndex:i];
-      NSAssert(65536 > offsetIndex, @"index overflow");
-      
-      [self appendIndex:offsetIndex];
+      if(65536 > offsetIndex)
+      {      
+         [self appendIndex:offsetIndex];
+      }
    }
 
    // Append aMesh's commands
    for(NSDictionary *commandDictionary in aMesh.commands)
    {
       NSMutableDictionary *newCommandDictionary = 
-         [NSMutableDictionary dictionaryWithDictionary:commandDictionary];
+         [NSMutableDictionary dictionaryWithDictionary:
+            commandDictionary];
       NSUInteger newCommandFirstIndex = 
          [[commandDictionary objectForKey:@"firstIndex"]
             unsignedIntegerValue] + startNumberOfIndices;
       
-      [newCommandDictionary setObject:[NSNumber numberWithUnsignedInteger:newCommandFirstIndex] forKey:@"firstIndex"]; 
+      [newCommandDictionary setObject:[NSNumber
+         numberWithUnsignedInteger:newCommandFirstIndex]
+         forKey:@"firstIndex"];
         
       [self appendCommandDictionary:newCommandDictionary];
    }
@@ -514,7 +523,8 @@
          NSDictionary *currentCommand = 
             [self.commands objectAtIndex:i];
          result += [[currentCommand 
-            objectForKey:@"numberOfIndices"] unsignedIntegerValue];
+            objectForKey:@"numberOfIndices"]
+            unsignedIntegerValue];
       }
    }
    
