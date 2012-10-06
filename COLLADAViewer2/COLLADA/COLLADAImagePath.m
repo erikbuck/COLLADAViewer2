@@ -24,4 +24,20 @@
     return self;
 }
 
+
+/////////////////////////////////////////////////////////////////
+//
+- (NSDictionary *)plistRepresentation
+{
+   return [NSDictionary dictionaryWithObjectsAndKeys:
+      [self.image TIFFRepresentation],
+      @"imageData", 
+      [NSNumber numberWithUnsignedInteger:self.image.size.width],
+      @"width", 
+      [NSNumber numberWithUnsignedInteger:self.image.size.height],
+      @"height", 
+      nil];
+}
+
+
 @end

@@ -27,4 +27,7 @@
 @property (nonatomic, assign)
    GLKMatrix4 textureTransform;
 
+@property (nonatomic, readonly, strong) NSDictionary
+   *plistRepresentation;
+
 @end

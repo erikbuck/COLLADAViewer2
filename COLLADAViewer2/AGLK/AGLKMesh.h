@@ -61,7 +61,8 @@ AGLKMeshVertex;
 - (NSString *)axisAlignedBoundingBoxStringForCommandsInRange:
    (NSRange)aRange;
 
-- (id)copyWithTransform:(GLKMatrix4)transforms;
+- (id)copyWithTransform:(GLKMatrix4)transforms
+   textureTransform:(GLKMatrix3)textureTransform;
 - (void)appendVertex:(AGLKMeshVertex)aVertex;
 - (void)appendIndex:(GLushort)index;
 - (void)appendCommand:(GLenum)command 
@@ -71,6 +72,8 @@ AGLKMeshVertex;
 - (void)appendMesh:(AGLKMesh *)aMesh;
 
 - (BOOL)canAppendMesh:(AGLKMesh *)aMesh;
+
+- (NSUInteger)numberOfVerticesForCommandsInRange:(NSRange)aRange;
 
 @end
 

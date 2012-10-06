@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		035AAD871619F35300BEDEC6 /* MissingImage.png in Resources */ = {isa = PBXBuildFile; fileRef = 035AAD861619F35300BEDEC6 /* MissingImage.png */; };
+		036D6287161FD043001EA79C /* COLLADARoot+modelConsolidation.m in Sources */ = {isa = PBXBuildFile; fileRef = 036D6286161FD043001EA79C /* COLLADARoot+modelConsolidation.m */; };
+		036D628F1620C361001EA79C /* AGLKModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 036D628E1620C361001EA79C /* AGLKModel.m */; };
 		039A6D171618989500E1CF19 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 039A6D161618989500E1CF19 /* Cocoa.framework */; };
 		039A6D211618989500E1CF19 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 039A6D1F1618989500E1CF19 /* InfoPlist.strings */; };
 		039A6D231618989500E1CF19 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 039A6D221618989500E1CF19 /* main.m */; };
@@ -43,6 +45,10 @@
 
 /* Begin PBXFileReference section */
 		035AAD861619F35300BEDEC6 /* MissingImage.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = MissingImage.png; sourceTree = "<group>"; };
+		036D6285161FD043001EA79C /* COLLADARoot+modelConsolidation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "COLLADARoot+modelConsolidation.h"; sourceTree = "<group>"; };
+		036D6286161FD043001EA79C /* COLLADARoot+modelConsolidation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "COLLADARoot+modelConsolidation.m"; sourceTree = "<group>"; };
+		036D628D1620C361001EA79C /* AGLKModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AGLKModel.h; sourceTree = "<group>"; };
+		036D628E1620C361001EA79C /* AGLKModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AGLKModel.m; sourceTree = "<group>"; };
 		039A6D121618989500E1CF19 /* COLLADAViewer2.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = COLLADAViewer2.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		039A6D161618989500E1CF19 /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
 		039A6D191618989500E1CF19 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
@@ -207,6 +213,8 @@
 				039A6D961618B91F00E1CF19 /* AGLKView.m */,
 				039A6D971618B91F00E1CF19 /* AGLKViewController.h */,
 				039A6D981618B91F00E1CF19 /* AGLKViewController.m */,
+				036D628D1620C361001EA79C /* AGLKModel.h */,
+				036D628E1620C361001EA79C /* AGLKModel.m */,
 			);
 			path = AGLK;
 			sourceTree = "<group>";
@@ -239,6 +247,8 @@
 				039A6D761618B18300E1CF19 /* COLLADANode.m */,
 				039A6D771618B18300E1CF19 /* COLLADAResource.h */,
 				039A6D781618B18300E1CF19 /* COLLADAResource.m */,
+				036D6285161FD043001EA79C /* COLLADARoot+modelConsolidation.h */,
+				036D6286161FD043001EA79C /* COLLADARoot+modelConsolidation.m */,
 			);
 			name = Model;
 			sourceTree = "<group>";
@@ -385,6 +395,8 @@
 				039A6DA31618B94100E1CF19 /* AGLKMesh+viewAdditions.m in Sources */,
 				039A6DA61618F4D500E1CF19 /* CVViewController.m in Sources */,
 				039A6DAC1618F74F00E1CF19 /* CVView.m in Sources */,
+				036D6287161FD043001EA79C /* COLLADARoot+modelConsolidation.m in Sources */,
+				036D628F1620C361001EA79C /* AGLKModel.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

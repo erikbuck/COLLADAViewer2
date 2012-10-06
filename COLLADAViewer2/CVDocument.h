@@ -17,9 +17,10 @@
 @property (weak, nonatomic, readwrite)
    IBOutlet AGLKView *aglkView;
 
-@property (strong, nonatomic, readonly)
+@property (strong, nonatomic, readwrite)
    NSArray *allRoots;
 
 - (IBAction)importCOLLADA:(id)sender;
+- (IBAction)exportModelplist:(id)sender;
 
 @end

@@ -175,7 +175,7 @@ NSString *CVMissingImageName = @"MissingImage";
                nil]
             error:&error];
       
-      if(nil == self.textureInfo)
+      if(nil == result)
       {
          NSLog(@"Could not create texture for image: <%@>\n%@",
             path, error);
@@ -213,7 +213,7 @@ const float CVMaximumTextureDimension = 256.0;
 - (void)loadImageFromBasePath:(NSString *)aPath;
 {
    NSString *fullPath =
-      [aPath stringByAppendingPathComponent:self.path];
+      [aPath stringByAppendingPathComponent:[self.url path]];
    
    if(nil == fullPath)
    {
@@ -232,10 +232,14 @@ const float CVMaximumTextureDimension = 256.0;
          false);
       CGImageSourceRef imageSource =
          CGImageSourceCreateWithURL(url, nil);
-      image =
-         CGImageSourceCreateImageAtIndex(imageSource, 0, nil);
+      
+      if(NULL != imageSource)
+      {
+         image =
+            CGImageSourceCreateImageAtIndex(imageSource, 0, nil);
+         CFRelease(imageSource);
+      }
       CFRelease(url);
-      CFRelease(imageSource);
    }
    
    if(NULL == image)

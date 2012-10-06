@@ -324,7 +324,8 @@
 
 /////////////////////////////////////////////////////////////////
 //
-- (id)copyWithTransform:(GLKMatrix4)transforms;
+- (id)copyWithTransform:(GLKMatrix4)transforms
+   textureTransform:(GLKMatrix3)textureTransform;
 {
    AGLKMesh *result = [[AGLKMesh alloc] init];
    
@@ -354,6 +355,18 @@
       vertex.normal = GLKVector3Normalize(
          GLKMatrix3MultiplyVector3(normalMatrix,
          vertex.normal));
+      
+      GLKVector3 textureCoords =
+      {
+         vertex.texCoords0.x,
+         vertex.texCoords0.y,
+         0.0f
+      };
+      textureCoords =
+         GLKMatrix3MultiplyVector3(textureTransform, textureCoords);
+      
+      vertex.texCoords0 =
+         GLKVector2Make(textureCoords.x, textureCoords.y);
          
       [result appendVertex:vertex];
    }
@@ -478,6 +491,35 @@
       length:sizeof(index)];
 }
 
+
+/////////////////////////////////////////////////////////////////
+//
+- (NSUInteger)numberOfVerticesForCommandsInRange:(NSRange)aRange;
+{
+   NSInteger result = 0;
+   
+   if(0 < aRange.length)
+   {
+      const NSUInteger lastCommandIndex = 
+         (aRange.location + aRange.length) - 1;
+      const NSUInteger numberOfCommands = 
+         [self.commands count];
+
+      NSParameterAssert(aRange.location < numberOfCommands);
+      NSParameterAssert(lastCommandIndex < numberOfCommands);
+                
+      for(NSUInteger i = aRange.location; 
+         i <= lastCommandIndex; i++)
+      {
+         NSDictionary *currentCommand = 
+            [self.commands objectAtIndex:i];
+         result += [[currentCommand 
+            objectForKey:@"numberOfIndices"] unsignedIntegerValue];
+      }
+   }
+   
+   return result;
+}
 
 @end
 
