@@ -10,6 +10,8 @@
 @class GLKTextureInfo;
 
 
+#define AGLKMeshMaximumNumberOfVertices (65535)
+
 /////////////////////////////////////////////////////////////////
 // Type used to store mesh vertex attribues
 typedef struct

@@ -344,7 +344,8 @@
          GLKMatrix4Transpose(transforms));
    }
 
-   const NSUInteger count = self.numberOfIndices;
+   const NSUInteger count =
+      MIN(self.numberOfIndices, AGLKMeshMaximumNumberOfVertices);
    
    // Transform all the positions and normals while copying
    // vertex attributes into result.
@@ -417,7 +418,7 @@
    {
       NSUInteger offsetIndex = 
          startNumberOfIndices + [aMesh indexAtIndex:i];
-      if(65536 > offsetIndex)
+      if(AGLKMeshMaximumNumberOfVertices < offsetIndex)
       {
          // Exit loop and method prematurely!!!
          return NO;
@@ -444,7 +445,7 @@
    {
       NSUInteger offsetIndex = 
          startNumberOfIndices + [aMesh indexAtIndex:i];
-      if(65536 > offsetIndex)
+      if(AGLKMeshMaximumNumberOfVertices >= offsetIndex)
       {      
          [self appendIndex:offsetIndex];
       }

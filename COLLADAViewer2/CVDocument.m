@@ -195,7 +195,7 @@
 
 /////////////////////////////////////////////////////////////////
 //
-- (IBAction)exportModelplist:(id)sender;
+- (void)unconditionallyExportModelplist
 {
    NSSavePanel *sPanel = [NSSavePanel savePanel];
 
@@ -229,6 +229,68 @@
 	
    [sPanel beginSheetModalForWindow:[self windowForSheet] 
       completionHandler:savePanelHandler];
+}
+
+
+/////////////////////////////////////////////////////////////////
+//
+- (void)conditionallyExportModelplist:(NSAlert *)alert
+   returnCode:(NSInteger)returnCode
+   contextInfo:(void *)contextInfo;
+{
+   if(NSAlertDefaultReturn == returnCode)
+   {
+      [self unconditionallyExportModelplist];
+   }
+}
+
+
+/////////////////////////////////////////////////////////////////
+//
+- (IBAction)exportModelplist:(id)sender;
+{
+   NSUInteger cumulativeNumberOfVertices = 0;
+   
+   // Calculate the total number of vertices in all models
+   for(COLLADARoot *root in self.allRoots)
+   {
+      cumulativeNumberOfVertices +=
+         root.numberOfVertices.unsignedIntegerValue;
+   }
+   
+   if(AGLKMeshMaximumNumberOfVertices <
+      cumulativeNumberOfVertices)
+   {
+      NSAlert *exportAlert =
+         [NSAlert alertWithMessageText:
+            NSLocalizedString(
+               @"Some information will be discared during export.",
+               @"Some information will be discared during export.")
+            defaultButton:
+            NSLocalizedString(
+               @"Export Anyway",
+               @"Export Anyway")
+            alternateButton:
+            NSLocalizedString(
+               @"Cancel Export",
+               @"Cancel Export")
+            otherButton:nil
+            informativeTextWithFormat:
+            NSLocalizedString(
+               @"The modelplist file format is limited to storing a maximum of %lu vertices. The collection of models being exported contains at least %lu vertices.",
+               @"The modelplist file format is limited to storing a maximum of %lu vertices. The collection of models being exported contains at least %lu vertices."),
+            AGLKMeshMaximumNumberOfVertices,
+            cumulativeNumberOfVertices];
+      
+      [exportAlert beginSheetModalForWindow:self.windowForSheet
+         modalDelegate:self
+         didEndSelector:@selector(conditionallyExportModelplist:returnCode:contextInfo:)
+         contextInfo:nil];
+   }
+   else
+   {
+      [self unconditionallyExportModelplist];
+   }
 }
 
 @end
