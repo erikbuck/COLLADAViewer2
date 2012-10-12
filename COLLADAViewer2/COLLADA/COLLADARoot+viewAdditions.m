@@ -76,25 +76,34 @@
       return;
    }
    
-   if(nil == self.textureInfo)
+//   if(nil == self.textureInfo)
    {
       anEffect.texture2d0.name = 0;
       anEffect.texture2d0.target = 0;
 
-      COLLADAInstance *bindMaterial = [self.bindMaterials anyObject];
+      COLLADAInstance *bindMaterial =
+         [self.bindMaterials anyObject];
       
       if(nil != bindMaterial)
       {
-         self.textureInfo =
-            [self textureForMaterialBinding:bindMaterial
+         COLLADAImagePath *imagePath =
+            [self imagePathForMaterialBinding:bindMaterial
                root:aRoot];
+         
+         if(nil != imagePath.textureInfo)
+         {
+            anEffect.texture2d0.name =
+               imagePath.textureInfo.name;
+            anEffect.texture2d0.target =
+               imagePath.textureInfo.target;
+            anEffect.texture2d0Transform =
+               imagePath.textureTransform;
+         }
+         else
+         {
+            anEffect.texture2d0.name = 0;
+         }
       }
-   }
-   
-   if(nil != self.textureInfo)
-   {
-      anEffect.texture2d0.name = self.textureInfo.name;
-      anEffect.texture2d0.target = self.textureInfo.target;
    }
    
    [referencedGeometry drawWithEffect:anEffect
@@ -210,11 +219,37 @@ const float CVMaximumTextureDimension = 256.0;
 
 /////////////////////////////////////////////////////////////////
 //
+static CGImageRef CVCreateImageFromBasePath(NSString *fullPath)
+{
+	CGImageRef image = NULL;
+   
+   CFURLRef url = CFURLCreateWithFileSystemPath(
+      kCFAllocatorDefault,
+      (__bridge CFStringRef)(fullPath),
+      kCFURLPOSIXPathStyle,
+      false);
+   CGImageSourceRef imageSource =
+      CGImageSourceCreateWithURL(url, nil);
+   
+   if(NULL != imageSource)
+   {
+      image =
+         CGImageSourceCreateImageAtIndex(imageSource, 0, nil);
+      CFRelease(imageSource);
+   }
+   CFRelease(url);
+      
+   return image;
+}
+
+
+/////////////////////////////////////////////////////////////////
+//
 - (void)loadImageFromBasePath:(NSString *)aPath;
 {
    NSString *fullPath =
       [aPath stringByAppendingPathComponent:[self.url path]];
-   
+
    if(nil == fullPath)
    {
       NSLog(@"Invalid image path could not be loaded");
@@ -222,25 +257,7 @@ const float CVMaximumTextureDimension = 256.0;
       return;
    }
    
-	CGImageRef image = NULL;
-   
-   {
-      CFURLRef url = CFURLCreateWithFileSystemPath(
-         kCFAllocatorDefault,
-         (__bridge CFStringRef)(fullPath),
-         kCFURLPOSIXPathStyle,
-         false);
-      CGImageSourceRef imageSource =
-         CGImageSourceCreateWithURL(url, nil);
-      
-      if(NULL != imageSource)
-      {
-         image =
-            CGImageSourceCreateImageAtIndex(imageSource, 0, nil);
-         CFRelease(imageSource);
-      }
-      CFRelease(url);
-   }
+	CGImageRef image = CVCreateImageFromBasePath(fullPath);
    
    if(NULL == image)
    {
@@ -265,6 +282,16 @@ const float CVMaximumTextureDimension = 256.0;
             fullPath);
       }
 
+      if(nil != self.textureInfo)
+      { // Delete any previously loaded texture images
+         GLuint name = self.textureInfo.name;
+         
+         if(0 != name)
+         {
+            glDeleteTextures(1, &name);
+         }
+      }
+      
       NSError *error = nil;
       
       self.textureInfo =
@@ -340,6 +367,55 @@ const float CVMaximumTextureDimension = 256.0;
    for(COLLADAImagePath *imagePath in self.imagePaths.allValues)
    {
       [imagePath loadImageFromBasePath:self.path];
+   }
+}
+
+
+/////////////////////////////////////////////////////////////////
+//
+- (void)useTextureAtlasImage:(NSImage *)anImage;
+{
+   NSError *error = nil;
+   
+   // Use Tiff reprsentation because GLKTextureLoader doesn't
+   // support CGImageRef obtained directly from NSImage
+   GLKTextureInfo *atlasTextureInfo =
+      [GLKTextureLoader textureWithContentsOfData:
+            [anImage TIFFRepresentation]
+         options:[NSDictionary dictionaryWithObjectsAndKeys:
+            [NSNumber numberWithBool:NO],
+            GLKTextureLoaderOriginBottomLeft,
+            [NSNumber numberWithBool:YES],
+            GLKTextureLoaderGenerateMipmaps,
+            nil]
+         error:&error];
+   
+   if(nil == atlasTextureInfo)
+   {
+      NSLog(@"Could not create atlas texture.\n%@",
+         error);
+   }
+   else
+   {
+      glTexParameteri(GL_TEXTURE_2D, 
+         GL_TEXTURE_MAG_FILTER, 
+         GL_LINEAR);
+      glTexParameteri(GL_TEXTURE_2D, 
+         GL_TEXTURE_MIN_FILTER, 
+         GL_NEAREST_MIPMAP_LINEAR);
+      glTexParameteri(
+         GL_TEXTURE_2D, 
+         GL_TEXTURE_WRAP_S, 
+         GL_CLAMP);
+      glTexParameteri(
+         GL_TEXTURE_2D, 
+         GL_TEXTURE_WRAP_T, 
+         GL_CLAMP);
+
+      for(COLLADAImagePath *imagePath in self.imagePaths.allValues)
+      {
+         imagePath.textureInfo = atlasTextureInfo;
+      }
    }
 }
 

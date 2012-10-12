@@ -45,8 +45,8 @@
    if (self)
    {
       transform_ = [[GLKEffectPropertyTransform alloc] init];
-      texture2d0Transform_ = GLKMatrix3Identity;
-      texture2d1Transform_ = GLKMatrix3Identity;
+      texture2d0Transform_ = GLKMatrix4Identity;
+      texture2d1Transform_ = GLKMatrix4Identity;
       lightModelAmbientColor_ = GLKVector4Make(0.3, 0.3, 0.3, 1.0);
    }
 

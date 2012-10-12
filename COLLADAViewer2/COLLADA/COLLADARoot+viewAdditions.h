@@ -16,5 +16,6 @@
 - (void)drawWithEffect:(AGLKEffect *)anEffect;
 
 - (void)loadImages;
+- (void)useTextureAtlasImage:(NSImage *)anImage;
 
 @end

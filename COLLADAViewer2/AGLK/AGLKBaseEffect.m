@@ -148,11 +148,13 @@ enum
       enables);
    
    // Texture transforms
-   GLKMatrix3 textureTransforms[MAX_TEXTURES];
+   GLKMatrix4 textureTransforms[MAX_TEXTURES];
    textureTransforms[0] = self.texture2d0Transform;
    textureTransforms[1] = self.texture2d1Transform;
-   glUniformMatrix3fv(uniforms_[AGLKTextureTransforms2D], MAX_TEXTURES,
-      GL_FALSE, (float *)textureTransforms);
+   glUniformMatrix4fv(uniforms_[AGLKTextureTransforms2D],
+      MAX_TEXTURES,
+      GL_TRUE,  // Texture matrices are transposed
+      (float *)textureTransforms);
    
    
 }

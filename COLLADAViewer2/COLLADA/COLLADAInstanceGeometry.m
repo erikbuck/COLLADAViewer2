@@ -30,11 +30,11 @@
 
 /////////////////////////////////////////////////////////////////
 //
-- (GLKTextureInfo *)textureForMaterialBinding:
+- (COLLADAImagePath *)imagePathForMaterialBinding:
    (COLLADAInstance *)bindMaterial
    root:(COLLADARoot *)aRoot;
 {
-   GLKTextureInfo *result = nil;
+   COLLADAImagePath *result = nil;
    
    COLLADAResource *referencedMaterial =
       [aRoot.materials objectForKey:bindMaterial.url];
@@ -57,14 +57,8 @@
       }
       else
       {
-         COLLADAImagePath *referencedImagePath =
-            [aRoot.imagePaths
-               objectForKey:referencedEffect.diffuseTextureImagePathURL];
-         
-         if(nil != referencedImagePath)
-         {
-            result = referencedImagePath.textureInfo;
-         }
+         result = [aRoot.imagePaths objectForKey:
+            referencedEffect.diffuseTextureImagePathURL];
       }
    }
    

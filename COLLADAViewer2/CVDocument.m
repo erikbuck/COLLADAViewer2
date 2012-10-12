@@ -14,8 +14,13 @@
 #import "AGLKMesh.h"
 #import "AGLKModel.h"
 
+#undef __gl_h_
+#import <GLKit/GLKit.h>
+
 
 @implementation CVDocument
+
+#pragma mark - (MVC) Model access
 
 /////////////////////////////////////////////////////////////////
 // 
@@ -39,6 +44,8 @@
 }
 
 
+#pragma mark - Document GUI
+
 /////////////////////////////////////////////////////////////////
 // 
 - (NSString *)windowNibName
@@ -54,6 +61,21 @@
 + (BOOL)autosavesInPlace
 {
     return YES;
+}
+
+
+/////////////////////////////////////////////////////////////////
+//
+- (BOOL)validateMenuItem:(NSMenuItem *)menuItem;
+{
+   BOOL result = [super validateMenuItem:menuItem];
+   
+   if([menuItem action] == @selector(exportModelplist:))
+   {
+      result = (0 < self.allRoots.count);
+   }
+   
+   return result;
 }
 
 
@@ -108,20 +130,7 @@
 }
 
 
-/////////////////////////////////////////////////////////////////
-//
-- (BOOL)validateMenuItem:(NSMenuItem *)menuItem;
-{
-   BOOL result = [super validateMenuItem:menuItem];
-   
-   if([menuItem action] == @selector(exportModelplist:))
-   {
-      result = (0 < self.allRoots.count);
-   }
-   
-   return result;
-}
-
+#pragma mark - Modelplist support
 
 /////////////////////////////////////////////////////////////////
 // Creates and returns a dictionary containing plists of models
@@ -170,6 +179,9 @@
 // are available.
 - (NSDictionary *)modelplistTextureInfoPlist
 {
+   // Combine all the textures into one texture atlas
+   [self consolidateTexturesIntoAtlas];
+   
    COLLADAImagePath *anyImagePath = nil;
    
    for(COLLADARoot *root in self.allRoots)
@@ -290,6 +302,285 @@
    else
    {
       [self unconditionallyExportModelplist];
+   }
+}
+
+
+#pragma mark - Texture Atlas
+
+/////////////////////////////////////////////////////////////////
+//
+- (NSArray *)allTextureImagePaths
+{
+   NSMutableArray *textureImages =
+      [NSMutableArray array];
+   
+   for(COLLADARoot *root in self.allRoots)
+   {
+      for(NSString *imagePathKey in root.imagePaths)
+      {
+         COLLADAImagePath *imagePath =
+            [root.imagePaths objectForKey:imagePathKey];
+         
+         if(nil != imagePath.image)
+         {
+            [textureImages addObject:imagePath];
+         }
+         else
+         {
+            NSLog(@"Image Path <%@> has no image.",
+               imagePathKey);
+         }
+      }
+   }
+
+   return textureImages;
+}
+
+
+/////////////////////////////////////////////////////////////////
+//
+const NSInteger CVMaximumNumberOfLargeImages = (8);
+const NSInteger CVMaximumNumberOfMediumImages = (8);
+const NSInteger CVMaximumNumberOfSmallImages = (16);
+const NSSize CVLargeImageSize = {256.0f, 256.0f};
+const NSSize CVMediumImageSize = {256.0f, 128.0f};
+const NSSize CVSmallImageSize = {128.0f, 128.0f};
+const size_t CVTextureAtlasWidth = 1024.0f;
+const size_t CVTextureAtlasHeight = 1024.0f;
+
+
+/////////////////////////////////////////////////////////////////
+//
+- (void)tileImagePaths:(NSArray *)imagePaths
+   inContext:(CGContextRef)textureAtlasContext
+   xOffset:(size_t)xOffset
+   yOffset:(size_t)yOffset
+   width:(size_t)width
+   height:(size_t)height
+{
+   for(COLLADAImagePath *imagePath in imagePaths)
+   {
+      NSAssert((xOffset + width) <=
+         CVTextureAtlasWidth, @"Invalid image offset.");
+      NSAssert((yOffset + height) <=
+         CVTextureAtlasHeight, @"Invalid image offset.");
+      
+      CGRect destinationRect =
+         CGRectMake(xOffset, yOffset, width, height);
+      
+      CGContextDrawImage(
+         textureAtlasContext,
+         destinationRect,
+         [imagePath.image CGImageForProposedRect:&destinationRect
+            context:nil
+            hints:nil]);
+      
+      // Set transform so that image path will use correct
+      // part of atlas
+      imagePath.textureTransform =
+         GLKMatrix4Translate(imagePath.textureTransform,
+            (float)xOffset / (float)CVTextureAtlasWidth,
+            ((CVTextureAtlasHeight - height) - (float)yOffset) / (float)CVTextureAtlasHeight,
+            0.0);
+      imagePath.textureTransform =
+         GLKMatrix4Scale(imagePath.textureTransform,
+            (float)width / (float)CVTextureAtlasWidth,
+            (float)height / (float)CVTextureAtlasHeight,
+            1.0);
+      
+      yOffset += height;
+      if(yOffset >= CVTextureAtlasHeight)
+      {
+         yOffset = 0.0f;
+         xOffset += width;
+      }
+   }
+}
+
+
+/////////////////////////////////////////////////////////////////
+//
+- (NSImage *)textureAtlasForLargeImagePaths:(NSArray *)largeImagePaths
+   mediumImagePaths:(NSArray *)mediumImagePaths
+   smallImagePaths:(NSArray *)smallImagePaths
+{
+   // Build Texture Atlas image, update image paths to use atlas
+   CGColorSpaceRef colorSpace =
+      CGColorSpaceCreateDeviceRGB();
+   CGContextRef textureAtlasContext =
+      CGBitmapContextCreate(
+         NULL,
+         CVTextureAtlasWidth,
+         CVTextureAtlasHeight,
+         8, // bitsPerComponent
+         4 * CVTextureAtlasWidth, // bytesPerRow
+         colorSpace,
+         kCGImageAlphaPremultipliedLast
+      );
+   CGColorSpaceRelease(colorSpace);
+
+   {  // Layout large texture images
+      [self tileImagePaths:largeImagePaths
+         inContext:textureAtlasContext
+         xOffset:0.0f
+         yOffset:0.0f
+         width:CVLargeImageSize.width
+         height:CVLargeImageSize.height];
+   }
+   {  // Layout medium texture images
+       [self tileImagePaths:mediumImagePaths
+         inContext:textureAtlasContext
+         xOffset:512.0f
+         yOffset:0.0f
+         width:CVMediumImageSize.width
+         height:CVMediumImageSize.height];
+   }
+   {  // Layout small texture images
+      [self tileImagePaths:smallImagePaths
+         inContext:textureAtlasContext
+         xOffset:512.0f + 256.0f
+         yOffset:0.0f
+         width:CVSmallImageSize.width
+         height:CVSmallImageSize.height];
+   }
+   
+   // Get image corresponding to new texture atlas
+   CGImageRef textureAtlasImageRef =
+      CGBitmapContextCreateImage(textureAtlasContext);
+   
+   NSImage *textureAtlasImage =
+      [[NSImage alloc] initWithCGImage:textureAtlasImageRef
+         size:NSMakeSize(CVTextureAtlasWidth,
+            CVTextureAtlasHeight)];
+
+   CGImageRelease(textureAtlasImageRef);
+   CGContextRelease(textureAtlasContext);
+   
+   return textureAtlasImage;
+}
+
+
+/////////////////////////////////////////////////////////////////
+//
+NSComparator CVImagePathSizeComparator =
+   ^NSComparisonResult(
+      COLLADAImagePath *obj1,
+      COLLADAImagePath *obj2)
+   {
+      NSSize obj1Size = obj1.image.size;
+      NSSize obj2Size = obj2.image.size;
+      
+      if((obj1Size.width * obj1Size.height) >
+         (obj2Size.width * obj2Size.height))
+      {
+         return NSOrderedDescending;
+      }
+      else if((obj1Size.width * obj1Size.height) <
+         (obj2Size.width * obj2Size.height))
+      {
+         return NSOrderedAscending;
+      }
+      else
+      {
+         return NSOrderedSame;
+      }
+   };
+
+
+/////////////////////////////////////////////////////////////////
+//
+- (void)consolidateTexturesIntoAtlas
+{
+   // Sort texture images by size
+   NSArray *sortedTextureImagePaths =
+      [[self allTextureImagePaths] sortedArrayUsingComparator:
+         CVImagePathSizeComparator];
+
+   // Collect imagePaths into bins by size
+   NSMutableArray *largeImagePaths = [NSMutableArray array];
+   NSMutableArray *mediumImagePaths = [NSMutableArray array];
+   NSMutableArray *smallImagePaths = [NSMutableArray array];
+   
+   for(COLLADAImagePath *imagePath in sortedTextureImagePaths)
+   {
+      NSSize imageSize = imagePath.image.size;
+      
+      if(imageSize.width >= CVLargeImageSize.width)
+      {
+         if((imageSize.height >= CVLargeImageSize.height) &&
+            (largeImagePaths.count < CVMaximumNumberOfLargeImages))
+         { // Use large image slot
+            [largeImagePaths addObject:imagePath];
+         }
+         else if((imageSize.height >= CVMediumImageSize.height) &&
+            (mediumImagePaths.count < CVMaximumNumberOfMediumImages))
+         { // Use medium image slot
+            [mediumImagePaths addObject:imagePath];
+         }
+         else if(smallImagePaths.count < CVMaximumNumberOfSmallImages)
+         { // Use small image slot
+            [smallImagePaths addObject:imagePath];
+         }
+         else
+         {
+            NSLog(@"Txture image discarded: %@.",
+               @"insufficient space in Texture Atlas");
+         }
+      }
+      else if(imageSize.width >= CVMediumImageSize.width)
+      {
+         if((imageSize.height >= CVMediumImageSize.height) &&
+            (mediumImagePaths.count < CVMaximumNumberOfMediumImages))
+         { // Use medium image slot
+            [mediumImagePaths addObject:imagePath];
+         }
+         else if(smallImagePaths.count < CVMaximumNumberOfSmallImages)
+         { // Use small image slot
+            [smallImagePaths addObject:imagePath];
+         }
+         else
+         {
+            NSLog(@"Txture image discarded: %@.",
+               @"insufficient space in Texture Atlas");
+         }
+      }
+      else if(smallImagePaths.count < CVMaximumNumberOfSmallImages)
+      { // Use small image slot
+         [smallImagePaths addObject:imagePath];
+      }
+      else
+      {
+         NSLog(@"Txture image discarded: %@.",
+            @"insufficient space in Texture Atlas");
+      }
+   }
+   
+   NSImage *textureAtlasImage =
+      [self textureAtlasForLargeImagePaths:largeImagePaths
+         mediumImagePaths:mediumImagePaths
+         smallImagePaths:smallImagePaths];
+   
+//#ifdef DEBUG_TEXTURE_ATLAS
+   {
+      NSString *path =
+         [@"~/TextureAtlas.tiff" stringByExpandingTildeInPath];
+      [[textureAtlasImage TIFFRepresentation]
+         writeToFile:path
+         atomically:NO];
+   }
+//#endif
+
+   // Tell image paths to use textureAtlasImage
+   for(COLLADAImagePath *imagePath in sortedTextureImagePaths)
+   {
+      imagePath.image = textureAtlasImage;
+   }
+   
+   // Tell roots to use textureAtlasImage
+   for(COLLADARoot *root in self.allRoots)
+   {
+      [root useTextureAtlasImage:textureAtlasImage];
    }
 }
 

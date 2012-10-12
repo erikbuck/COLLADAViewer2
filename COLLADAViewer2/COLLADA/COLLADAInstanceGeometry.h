@@ -11,7 +11,7 @@
 
 @class COLLADABindMaterial;
 @class COLLADARoot;
-@class GLKTextureInfo;
+@class COLLADAImagePath;
 
 
 @interface COLLADAInstanceGeometry : COLLADAInstance
@@ -19,11 +19,11 @@
 @property (nonatomic, retain)
    NSSet *bindMaterials;
 
-@property (nonatomic, strong)
-   GLKTextureInfo *textureInfo;
+//@property (nonatomic, strong)
+//   GLKTextureInfo *textureInfo;
 
 
-- (GLKTextureInfo *)textureForMaterialBinding:
+- (COLLADAImagePath *)imagePathForMaterialBinding:
    (COLLADAInstance *)bindMaterial
    root:(COLLADARoot *)aRoot;
 

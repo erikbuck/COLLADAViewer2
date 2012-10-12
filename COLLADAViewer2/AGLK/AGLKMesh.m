@@ -237,13 +237,17 @@
       {
          NSDictionary *currentCommand = 
             [self.commands objectAtIndex:i];
-         size_t  numberOfIndices = (size_t)[[currentCommand 
+         size_t  numberOfIndices = (size_t)[[currentCommand
             objectForKey:@"numberOfIndices"] 
             unsignedIntegerValue];
          size_t  firstIndex = (size_t)[[currentCommand 
             objectForKey:@"firstIndex"] unsignedIntegerValue];
          GLushort *indices = (GLushort *)
             [self.indexData bytes];
+         
+         NSAssert(AGLKMeshMaximumNumberOfVertices >=
+            (firstIndex + numberOfIndices),
+            @"Vertex index out of bounds");
          
          if(0 < numberOfIndices && !hasFoundFirstVertex)
          {
@@ -400,6 +404,10 @@
 //
 - (void)appendVertex:(AGLKMeshVertex)aVertex;
 {
+   NSAssert(AGLKMeshMaximumNumberOfVertices >
+      [self numberOfVertices],
+      @"Attempt to append to omany vertices");
+   
    [self.mutableVertexData appendBytes:&aVertex
       length:sizeof(aVertex)];
 }
@@ -457,15 +465,24 @@
       NSMutableDictionary *newCommandDictionary = 
          [NSMutableDictionary dictionaryWithDictionary:
             commandDictionary];
+      
       NSUInteger newCommandFirstIndex = 
          [[commandDictionary objectForKey:@"firstIndex"]
             unsignedIntegerValue] + startNumberOfIndices;
       
+      NSUInteger newCommandNumberOfIndices =
+         (size_t)[[commandDictionary objectForKey:
+            @"numberOfIndices"] unsignedIntegerValue];
+      
       [newCommandDictionary setObject:[NSNumber
          numberWithUnsignedInteger:newCommandFirstIndex]
          forKey:@"firstIndex"];
-        
-      [self appendCommandDictionary:newCommandDictionary];
+      
+      if(AGLKMeshMaximumNumberOfVertices >=
+         (newCommandFirstIndex + newCommandNumberOfIndices))
+      {
+         [self appendCommandDictionary:newCommandDictionary];
+      }
    }
 }
 

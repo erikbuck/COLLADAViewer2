@@ -26,7 +26,7 @@ attribute vec2 a_texCoords1;
 uniform highp mat4      u_mvpMatrix;
 uniform highp mat3      u_normalMatrix;
 uniform sampler2D       u_units[MAX_TEXTURES];
-uniform highp mat3      u_textureTransforms[MAX_TEXTURES];
+uniform highp mat4      u_textureTransforms[MAX_TEXTURES];
 uniform lowp float      u_textureEnables[MAX_TEXTURES];
 uniform lowp  vec4      u_lightModelAmbientColor;
 uniform highp vec4      u_light0Position;
@@ -42,9 +42,9 @@ varying lowp vec4       v_lightColor;
 void main()
 {
    // Texture coords
-   v_texCoords[0] = (vec3(a_texCoords0, 1.0) *
+   v_texCoords[0] = (vec4(a_texCoords0, 0.0, 1.0) *
       u_textureTransforms[0]).xy;
-   v_texCoords[1] = (vec3(a_texCoords1, 1.0) *
+   v_texCoords[1] = (vec4(a_texCoords1, 0.0, 1.0) *
       u_textureTransforms[1]).xy;
 
    // Lighting

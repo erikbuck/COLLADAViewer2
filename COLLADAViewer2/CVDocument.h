@@ -23,4 +23,6 @@
 - (IBAction)importCOLLADA:(id)sender;
 - (IBAction)exportModelplist:(id)sender;
 
+- (void)consolidateTexturesIntoAtlas;
+
 @end
