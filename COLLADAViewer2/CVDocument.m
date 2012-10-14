@@ -11,6 +11,7 @@
 #import "COLLADARoot+viewAdditions.h"
 #import "COLLADARoot+modelConsolidation.h"
 #import "COLLADAImagePath.h"
+#import "COLLADAMeshGeometry.h"
 #import "AGLKMesh.h"
 #import "AGLKModel.h"
 
@@ -93,6 +94,12 @@
    [self appendRoot:coladaParser.root];
    [coladaParser.root loadImages];
    [coladaParser.root calculateNumberOfTriangles];
+
+   // Tell roots to normalize texture vertices
+   for(COLLADAMeshGeometry *meshGeometry in coladaParser.root.geometries.allValues)
+   {
+      [meshGeometry.mesh normalizeAllTextureCoords];
+   }
    
    [self updateChangeCount:NSChangeReadOtherContents];
 }
@@ -582,6 +589,15 @@ NSComparator CVImagePathSizeComparator =
    {
       [root useTextureAtlasImage:textureAtlasImage];
    }
+   
+//   // Tell roots to normalize texture vertices
+//   for(COLLADARoot *root in self.allRoots)
+//   {
+//      for(COLLADAMeshGeometry *meshGeometry in root.geometries.allValues)
+//      {
+//         [meshGeometry.mesh normalizeAllTextureCoords];
+//      }
+//   }
 }
 
 @end

@@ -549,6 +549,148 @@
    return result;
 }
 
+
+/////////////////////////////////////////////////////////////////
+//
+static void ANormalizeTextureCoords(
+   GLKVector2 *vertex0,
+   GLKVector2 *vertex1,
+   GLKVector2 *vertex2)
+{
+   NSCAssert(NULL != vertex0, @"vertex0 == NULL");
+   NSCAssert(NULL != vertex1, @"vertex1 == NULL");
+   NSCAssert(NULL != vertex2, @"vertex2 == NULL");
+   
+   const float minS =
+      MIN(vertex0->s, MIN(vertex1->s, vertex2->s));
+//   const float maxS =
+//      MAX(vertex0->s, MAX(vertex1->s, vertex2->s));
+   const float minT =
+      MIN(vertex0->t, MIN(vertex1->t, vertex2->t));
+//   const float maxT =
+//      MAX(vertex0->t, MAX(vertex1->t, vertex2->t));
+   
+//   const float spanS = maxS - minS;
+//   const float spanT = maxT - minT;
+   
+//   NSLog(@"before:{%f, %f}{%f, %f}{%f, %f}",
+//      vertex0->s,
+//      vertex0->t,
+//      vertex1->s,
+//      vertex1->t,
+//      vertex2->s,
+//      vertex2->t);
+   
+   vertex0->s = MIN(1.0f, vertex0->s - floorf(minS));
+   vertex1->s = MIN(1.0f, vertex1->s - floorf(minS));
+   vertex2->s = MIN(1.0f, vertex2->s - floorf(minS));
+   vertex0->t = MIN(1.0f, vertex0->t - floorf(minT));
+   vertex1->t = MIN(1.0f, vertex1->t - floorf(minT));
+   vertex2->t = MIN(1.0f, vertex2->t - floorf(minT));
+
+   if(((vertex0->s == vertex1->s) && (vertex1->s == vertex2->s)) ||
+      ((vertex0->t == vertex1->t) && (vertex1->t == vertex2->t)))
+   {
+      NSLog(@"after:{%f, %f}{%f, %f}{%f, %f}",
+         vertex0->s,
+         vertex0->t,
+         vertex1->s,
+         vertex1->t,
+         vertex2->s,
+         vertex2->t);
+   }
+}
+
+
+/////////////////////////////////////////////////////////////////
+//
+typedef struct
+{
+   AGLKMeshVertex a;
+   AGLKMeshVertex b;
+   AGLKMeshVertex c;
+   GLushort origIndexA;
+   GLushort origIndexB;
+   GLushort origIndexC;
+}
+ANoShareTriangle;
+
+
+/////////////////////////////////////////////////////////////////
+//
+- (void)normalizeAllTextureCoords;
+{
+   const NSUInteger numberOfCommands =
+      [self.commands count];
+
+   const GLushort *indices =
+      (const GLushort *)[self.indexData bytes];
+    AGLKMeshVertex *vertices =
+       (AGLKMeshVertex *)[self.mutableVertexData mutableBytes];
+   
+   for(NSUInteger i = 0; i < numberOfCommands; i++)
+   {
+      NSDictionary *currentCommand = 
+         [self.commands objectAtIndex:i];
+      GLenum mode = (GLenum)[[currentCommand 
+         objectForKey:@"command"] unsignedIntegerValue];
+
+      // Accumulate triangles that do not share any vertices and have
+      // normalized texture coordinates
+      NSMutableData *noShareTrianglesData =
+         [NSMutableData data];
+      
+      if(GL_TRIANGLES == mode)
+      {
+         const size_t  numberOfIndices = (size_t)[[currentCommand
+            objectForKey:AGLKMeshCommandNumberOfIndices] 
+            unsignedIntegerValue];
+         const size_t  firstIndex = (size_t)[[currentCommand
+            objectForKey:AGLKMeshCommandFirstIndex] 
+               unsignedIntegerValue];
+         
+         for(GLsizei j = 0; j <= (numberOfIndices - 3); j += 3)
+         {
+            ANoShareTriangle triangle;
+            const GLushort index0 = indices[firstIndex + j];
+            triangle.a = vertices[index0];
+            triangle.origIndexA = index0;
+            const GLushort index1 = indices[firstIndex + j + 1];
+            triangle.b = vertices[index1];
+            triangle.origIndexB = index1;
+            const GLushort index2 = indices[firstIndex + j + 2];
+            triangle.c = vertices[index2];
+            triangle.origIndexC = index2;
+
+            ANormalizeTextureCoords(
+               &triangle.a.texCoords0,
+               &triangle.b.texCoords0,
+               &triangle.c.texCoords0
+            );
+            
+            [noShareTrianglesData appendBytes:&triangle
+               length:sizeof(ANoShareTriangle)];
+         }
+         
+         // Copy vertices back in original order within vertices array
+         const GLsizei numberOfUnsharedVertices =
+            [noShareTrianglesData length] / sizeof(ANoShareTriangle);
+         const ANoShareTriangle *triangles =
+            (ANoShareTriangle *)[noShareTrianglesData bytes];
+         
+         for(GLsizei j = 0; j < numberOfUnsharedVertices; j++)
+         {
+            vertices[triangles[j].origIndexA] = triangles[j].a;
+            vertices[triangles[j].origIndexB] = triangles[j].b;
+            vertices[triangles[j].origIndexC] = triangles[j].c;
+         }
+         
+         // discard uneeded copies of vertex data
+         noShareTrianglesData = nil;
+      }
+   }
+}
+
 @end
 
 

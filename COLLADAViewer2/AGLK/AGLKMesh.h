@@ -77,6 +77,8 @@ AGLKMeshVertex;
 
 - (NSUInteger)numberOfVerticesForCommandsInRange:(NSRange)aRange;
 
+- (void)normalizeAllTextureCoords;
+
 @end
 
 /////////////////////////////////////////////////////////////////
