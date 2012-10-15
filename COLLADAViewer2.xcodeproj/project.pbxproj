@@ -41,6 +41,7 @@
 		039A6DAC1618F74F00E1CF19 /* CVView.m in Sources */ = {isa = PBXBuildFile; fileRef = 039A6DAB1618F74F00E1CF19 /* CVView.m */; };
 		039A6DB0161900AA00E1CF19 /* AGLKBaseEffectShader.fsh in Resources */ = {isa = PBXBuildFile; fileRef = 039A6DAE161900AA00E1CF19 /* AGLKBaseEffectShader.fsh */; };
 		039A6DB1161900AA00E1CF19 /* AGLKBaseEffectShader.vsh in Resources */ = {isa = PBXBuildFile; fileRef = 039A6DAF161900AA00E1CF19 /* AGLKBaseEffectShader.vsh */; };
+		03F95A66162B7AF20083819A /* md5.c in Sources */ = {isa = PBXBuildFile; fileRef = 03F95A65162B7AF20083819A /* md5.c */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -107,6 +108,8 @@
 		039A6DAB1618F74F00E1CF19 /* CVView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CVView.m; sourceTree = "<group>"; };
 		039A6DAE161900AA00E1CF19 /* AGLKBaseEffectShader.fsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = AGLKBaseEffectShader.fsh; sourceTree = "<group>"; };
 		039A6DAF161900AA00E1CF19 /* AGLKBaseEffectShader.vsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = AGLKBaseEffectShader.vsh; sourceTree = "<group>"; };
+		03F95A63162B7AEC0083819A /* md5.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = md5.h; path = ../md5.h; sourceTree = "<group>"; };
+		03F95A65162B7AF20083819A /* md5.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = md5.c; path = ../md5.c; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -231,6 +234,8 @@
 		039A6DB2161902FD00E1CF19 /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				03F95A65162B7AF20083819A /* md5.c */,
+				03F95A63162B7AEC0083819A /* md5.h */,
 				039A6D881618B8B400E1CF19 /* COLLADARoot.h */,
 				039A6D891618B8B400E1CF19 /* COLLADARoot.m */,
 				039A6D6B1618B18300E1CF19 /* COLLADAEffect.h */,
@@ -397,6 +402,7 @@
 				039A6DAC1618F74F00E1CF19 /* CVView.m in Sources */,
 				036D6287161FD043001EA79C /* COLLADARoot+modelConsolidation.m in Sources */,
 				036D628F1620C361001EA79C /* AGLKModel.m in Sources */,
+				03F95A66162B7AF20083819A /* md5.c in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
