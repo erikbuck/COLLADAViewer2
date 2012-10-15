@@ -19,6 +19,17 @@
 #import <GLKit/GLKit.h>
 
 
+@interface CVDocument ()
+
+@property (strong, nonatomic, readwrite)
+   IBOutlet NSView *openCOLLADAAccessoryView;
+
+@property (assign, nonatomic, readwrite)
+   BOOL shouldPreserveTextureCoordinates;
+
+@end
+
+
 @implementation CVDocument
 
 #pragma mark - (MVC) Model access
@@ -95,11 +106,14 @@
    [coladaParser.root loadImages];
    [coladaParser.root calculateNumberOfTriangles];
 
-   // Tell roots to normalize texture vertices
-   for(COLLADAMeshGeometry *meshGeometry in
-      coladaParser.root.geometries.allValues)
+   if(!self.shouldPreserveTextureCoordinates)
    {
-      [meshGeometry.mesh normalizeAllTextureCoords];
+      // Tell roots to normalize texture vertices
+      for(COLLADAMeshGeometry *meshGeometry in
+         coladaParser.root.geometries.allValues)
+      {
+         [meshGeometry.mesh normalizeAllTextureCoords];
+      }
    }
    
    [self updateChangeCount:NSChangeReadOtherContents];
@@ -122,7 +136,8 @@
 	[oPanel setCanChooseFiles:YES];
    [oPanel setAllowsMultipleSelection:YES];
    oPanel.allowedFileTypes = fileTypes;
-
+   oPanel.accessoryView = self.openCOLLADAAccessoryView;
+   
 	void (^openPanelHandler)(NSInteger) = ^( NSInteger result )
 	{
       NSArray *urlsToOpen = [oPanel URLs];
@@ -158,6 +173,9 @@
       AGLKModel *model =
          [root consolidatedModelWithMesh:consolidatedMesh];
       
+      // Normalize texture vertices
+      [consolidatedMesh normalizeAllTextureCoords];
+
       NSString *uniqueName = model.name;
       int counter = 1;
       
