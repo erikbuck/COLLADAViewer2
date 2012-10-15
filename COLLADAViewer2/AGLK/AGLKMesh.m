@@ -565,6 +565,16 @@ static void ANormalizeTextureCoords(
       MIN(vertex0->s, MIN(vertex1->s, vertex2->s));
    const float minT =
       MIN(vertex0->t, MIN(vertex1->t, vertex2->t));
+   const float maxS =
+      MAX(vertex0->s, MAX(vertex1->s, vertex2->s));
+   const float maxT =
+      MAX(vertex0->t, MAX(vertex1->t, vertex2->t));
+   const float rangeS =
+      MAX(1.0, maxS - minS);  // prevent laterdivide by zero and
+                              // preserve coords less than 1.0
+   const float rangeT =
+      MAX(1.0, maxT - minT);  // prevent laterdivide by zero and
+                              // preserve coords less than 1.0
    
 //   {
 //      NSLog(@"before:{%f, %f}{%f, %f}{%f, %f}",
@@ -576,12 +586,12 @@ static void ANormalizeTextureCoords(
 //         vertex2->t);
 //   }
    
-   vertex0->s = MIN(1.0f, vertex0->s - minS);
-   vertex1->s = MIN(1.0f, vertex1->s - minS);
-   vertex2->s = MIN(1.0f, vertex2->s - minS);
-   vertex0->t = MIN(1.0f, vertex0->t - minT);
-   vertex1->t = MIN(1.0f, vertex1->t - minT);
-   vertex2->t = MIN(1.0f, vertex2->t - minT);
+   vertex0->s = (vertex0->s - minS) / rangeS;
+   vertex1->s = (vertex1->s - minS) / rangeS;
+   vertex2->s = (vertex2->s - minS) / rangeS;
+   vertex0->t = (vertex0->t - minT) / rangeT;
+   vertex1->t = (vertex1->t - minT) / rangeT;
+   vertex2->t = (vertex2->t - minT) / rangeT;
 
 //   if(((vertex0->s == vertex1->s) && (vertex1->s == vertex2->s)) ||
 //      ((vertex0->t == vertex1->t) && (vertex1->t == vertex2->t)))
@@ -674,8 +684,8 @@ ANoShareTriangle;
          const ANoShareTriangle *triangles =
             (ANoShareTriangle *)[noShareTrianglesData bytes];
          
-         NSLog(@"numShared:%ld unshared:%d",
-            numberOfIndices, numberOfTriangles * 3);
+//         NSLog(@"numShared:%ld unshared:%d",
+//            numberOfIndices, numberOfTriangles * 3);
          
          for(GLsizei j = 0;
             j < numberOfTriangles; j++)
