@@ -36,7 +36,7 @@
    // all subsequent rendering
    self.baseEffect = [[AGLKBaseEffect alloc] init];
    
-   //glEnable(GL_CULL_FACE);
+   glEnable(GL_CULL_FACE);
    glEnable(GL_DEPTH_TEST);
    
    // Set the background color stored in the current context 
