@@ -361,12 +361,42 @@ static CGImageRef CVCreateImageFromBasePath(NSString *fullPath)
 
 
 /////////////////////////////////////////////////////////////////
-//
+// This method asks each image path mamaged by the receiver to
+// load actual image data from the image path relative to the
+// receiver's path.
+// It's common for several different imagePath instances to end
+// up loading identical image data. This method detects that case
+// and consolidates image paths that have identical image data.
+// Consequently, it's possible for the same image path instance
+// to end up stored via multiple different uid keys in the
+// receiver's dictionary of image paths. When that happens, the
+// image path for any particular uid key may have a uid
+// stored in the image path's uid property that differs from the
+// key.
 - (void)loadImages
 {
-   for(COLLADAImagePath *imagePath in self.imagePaths.allValues)
+   NSArray *allImagePaths =
+      [self.imagePaths.allValues copy];
+   NSMutableSet *uniqueImagePaths =
+      [NSMutableSet set];
+   
+   for(COLLADAImagePath *imagePath in allImagePaths)
    {
       [imagePath loadImageFromBasePath:self.path];
+      
+      // If an image path that's equal to imagePath in the sense
+      // that both image paths have the same image
+      if([uniqueImagePaths containsObject:imagePath])
+      {  // Replace the image path just laded with the existing
+         // path that has the same image
+         [self.imagePaths
+            setObject:[uniqueImagePaths member:imagePath]
+            forKey:imagePath.uid];
+      }
+      else
+      {  // This image data is unique
+         [uniqueImagePaths addObject:imagePath];
+      }
    }
 }
 

@@ -9,6 +9,7 @@
 #import <Foundation/Foundation.h>
 #import <GLKit/GLKMath.h>
 #import "COLLADAResource.h"
+#import "md5.h"
 
 @class GLKTextureInfo;
 
@@ -27,7 +28,15 @@
 @property (nonatomic, assign)
    GLKMatrix4 textureTransform;
 
-@property (nonatomic, readonly, strong) NSDictionary
-   *plistRepresentation;
+@property (nonatomic, readonly, strong)
+   NSDictionary *plistRepresentation;
+
+@property (nonatomic, readonly, assign)
+   const md5_byte_t *digest;
+
+- (void)updateDigest;
+
+- (NSUInteger)hash;
+- (BOOL)isEqual:(id)object;
 
 @end

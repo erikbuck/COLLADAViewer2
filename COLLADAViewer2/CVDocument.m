@@ -96,7 +96,8 @@
    [coladaParser.root calculateNumberOfTriangles];
 
    // Tell roots to normalize texture vertices
-   for(COLLADAMeshGeometry *meshGeometry in coladaParser.root.geometries.allValues)
+   for(COLLADAMeshGeometry *meshGeometry in
+      coladaParser.root.geometries.allValues)
    {
       [meshGeometry.mesh normalizeAllTextureCoords];
    }
@@ -317,10 +318,10 @@
 
 /////////////////////////////////////////////////////////////////
 //
-- (NSArray *)allTextureImagePaths
+- (NSSet *)allTextureImagePaths
 {
-   NSMutableArray *textureImages =
-      [NSMutableArray array];
+   NSMutableSet *textureImages =
+      [NSMutableSet set];
    
    for(COLLADARoot *root in self.allRoots)
    {
@@ -436,7 +437,7 @@ const size_t CVTextureAtlasHeight = 1024.0f;
          height:CVLargeImageSize.height];
    }
    {  // Layout medium texture images
-       [self tileImagePaths:mediumImagePaths
+      [self tileImagePaths:mediumImagePaths
          inContext:textureAtlasContext
          xOffset:512.0f
          yOffset:0.0f
@@ -499,10 +500,12 @@ NSComparator CVImagePathSizeComparator =
 //
 - (void)consolidateTexturesIntoAtlas
 {
-   // Sort texture images by size
+   // Sort texture images by size. -allTextureImagePaths returns
+   // a set, so we know each image path is unique and we won't
+   // end up copying the same image into the atlas multiple times.
    NSArray *sortedTextureImagePaths =
-      [[self allTextureImagePaths] sortedArrayUsingComparator:
-         CVImagePathSizeComparator];
+      [[[self allTextureImagePaths] allObjects]
+         sortedArrayUsingComparator:CVImagePathSizeComparator];
 
    // Collect imagePaths into bins by size
    NSMutableArray *largeImagePaths = [NSMutableArray array];
@@ -589,15 +592,6 @@ NSComparator CVImagePathSizeComparator =
    {
       [root useTextureAtlasImage:textureAtlasImage];
    }
-   
-//   // Tell roots to normalize texture vertices
-//   for(COLLADARoot *root in self.allRoots)
-//   {
-//      for(COLLADAMeshGeometry *meshGeometry in root.geometries.allValues)
-//      {
-//         [meshGeometry.mesh normalizeAllTextureCoords];
-//      }
-//   }
 }
 
 @end
