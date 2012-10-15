@@ -563,42 +563,37 @@ static void ANormalizeTextureCoords(
    
    const float minS =
       MIN(vertex0->s, MIN(vertex1->s, vertex2->s));
-//   const float maxS =
-//      MAX(vertex0->s, MAX(vertex1->s, vertex2->s));
    const float minT =
       MIN(vertex0->t, MIN(vertex1->t, vertex2->t));
-//   const float maxT =
-//      MAX(vertex0->t, MAX(vertex1->t, vertex2->t));
    
-//   const float spanS = maxS - minS;
-//   const float spanT = maxT - minT;
+//   {
+//      NSLog(@"before:{%f, %f}{%f, %f}{%f, %f}",
+//         vertex0->s,
+//         vertex0->t,
+//         vertex1->s,
+//         vertex1->t,
+//         vertex2->s,
+//         vertex2->t);
+//   }
    
-//   NSLog(@"before:{%f, %f}{%f, %f}{%f, %f}",
-//      vertex0->s,
-//      vertex0->t,
-//      vertex1->s,
-//      vertex1->t,
-//      vertex2->s,
-//      vertex2->t);
-   
-   vertex0->s = MIN(1.0f, vertex0->s - floorf(minS));
-   vertex1->s = MIN(1.0f, vertex1->s - floorf(minS));
-   vertex2->s = MIN(1.0f, vertex2->s - floorf(minS));
-   vertex0->t = MIN(1.0f, vertex0->t - floorf(minT));
-   vertex1->t = MIN(1.0f, vertex1->t - floorf(minT));
-   vertex2->t = MIN(1.0f, vertex2->t - floorf(minT));
+   vertex0->s = MIN(1.0f, vertex0->s - minS);
+   vertex1->s = MIN(1.0f, vertex1->s - minS);
+   vertex2->s = MIN(1.0f, vertex2->s - minS);
+   vertex0->t = MIN(1.0f, vertex0->t - minT);
+   vertex1->t = MIN(1.0f, vertex1->t - minT);
+   vertex2->t = MIN(1.0f, vertex2->t - minT);
 
-   if(((vertex0->s == vertex1->s) && (vertex1->s == vertex2->s)) ||
-      ((vertex0->t == vertex1->t) && (vertex1->t == vertex2->t)))
-   {
-      NSLog(@"after:{%f, %f}{%f, %f}{%f, %f}",
-         vertex0->s,
-         vertex0->t,
-         vertex1->s,
-         vertex1->t,
-         vertex2->s,
-         vertex2->t);
-   }
+//   if(((vertex0->s == vertex1->s) && (vertex1->s == vertex2->s)) ||
+//      ((vertex0->t == vertex1->t) && (vertex1->t == vertex2->t)))
+//   {
+//      NSLog(@"after:{%f, %f}{%f, %f}{%f, %f}",
+//         vertex0->s,
+//         vertex0->t,
+//         vertex1->s,
+//         vertex1->t,
+//         vertex2->s,
+//         vertex2->t);
+//   }
 }
 
 
@@ -673,12 +668,17 @@ ANoShareTriangle;
          }
          
          // Copy vertices back in original order within vertices array
-         const GLsizei numberOfUnsharedVertices =
-            [noShareTrianglesData length] / sizeof(ANoShareTriangle);
+         const GLsizei numberOfTriangles =
+            [noShareTrianglesData length] /
+               sizeof(ANoShareTriangle);
          const ANoShareTriangle *triangles =
             (ANoShareTriangle *)[noShareTrianglesData bytes];
          
-         for(GLsizei j = 0; j < numberOfUnsharedVertices; j++)
+         NSLog(@"numShared:%ld unshared:%d",
+            numberOfIndices, numberOfTriangles * 3);
+         
+         for(GLsizei j = 0;
+            j < numberOfTriangles; j++)
          {
             vertices[triangles[j].origIndexA] = triangles[j].a;
             vertices[triangles[j].origIndexB] = triangles[j].b;
