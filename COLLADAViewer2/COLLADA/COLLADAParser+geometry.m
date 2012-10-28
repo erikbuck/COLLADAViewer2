@@ -44,11 +44,11 @@ COLLADAVertexAttributePointers;
 @property (retain, nonatomic) NSString *vertexSourceID;
 @property (retain, nonatomic) NSString *normalSourceID;
 @property (retain, nonatomic) NSString *texCoordSourceID;
-@property (assign, nonatomic) NSInteger vertexOffset;
+@property (assign, nonatomic) NSInteger positionOffset;
 @property (assign, nonatomic) NSInteger normalOffset;
 @property (assign, nonatomic) NSInteger texCoordOffset;
 @property (retain, nonatomic) NSMutableData *indices;
-@property (assign, nonatomic) NSInteger numberOfSources;
+@property (assign, nonatomic) NSInteger indexStridePerVertex;
 
 - (NSUInteger)numberOfIndexGroups;
 - (COLLADAIndexGroup)indexGroupAtIndex:(NSUInteger)anIndex;
@@ -282,7 +282,8 @@ COLLADAVertexAttributePointers;
    
    // <input>
    NSArray *inputs = [triangle elementsForName:@"input"];
-   newTriangleInfo.numberOfSources = [inputs count];
+   NSInteger maxInputIndexOffset = 0;
+
    for(NSXMLElement *input in inputs)
    {
       NSXMLNode *semanticNode = 
@@ -297,23 +298,28 @@ COLLADAVertexAttributePointers;
          [input attributeForName:@"offset"];   
       NSString *offsetString = [offsetNode objectValue];
       
+      NSInteger offesetIntegerValue =
+         [offsetString integerValue];
+      maxInputIndexOffset =
+         MAX(offesetIntegerValue, maxInputIndexOffset);
+      
       if([@"NORMAL" isEqualToString:semanticString])
       {
          newTriangleInfo.normalSourceID = sourceIDString;
          newTriangleInfo.normalOffset = 
-            [offsetString integerValue];
+            offesetIntegerValue;
       }
       else if([@"TEXCOORD" isEqualToString:semanticString])
       {
          newTriangleInfo.texCoordSourceID = sourceIDString;
          newTriangleInfo.texCoordOffset = 
-            [offsetString integerValue];
+            offesetIntegerValue;
       }
       else if([@"VERTEX" isEqualToString:semanticString])
       {
          newTriangleInfo.vertexSourceID = sourceIDString;
-         newTriangleInfo.vertexOffset = 
-            [offsetString integerValue];
+         newTriangleInfo.positionOffset = 
+            offesetIntegerValue;
       }
       else
       {
@@ -322,6 +328,19 @@ COLLADAVertexAttributePointers;
       }
    }
    
+   // indexStridePerVertex is used to find indices for each vertex. The
+   // indexStridePerVertex is NOT necessarily the same as the number of input
+   // sources because some sources may share the same indices. For example, a
+   // vertex my have three sources, (position, normal, and textCoord), but
+   // only have an index stride of 2 because normal and texCoord always share
+   // the same index.
+   // The stride is therefore the maximum offset of all the sources plus 1
+   // to account for the index at the maximum offset
+   NSInteger maxOffset =
+      MAX(newTriangleInfo.positionOffset,
+         MAX(newTriangleInfo.normalOffset, newTriangleInfo.texCoordOffset));
+   newTriangleInfo.indexStridePerVertex = maxOffset + 1;
+   
    // <p>
    newTriangleInfo.indices = [NSMutableData data];
    NSArray *indices = [triangle elementsForName:@"p"];
@@ -329,7 +348,7 @@ COLLADAVertexAttributePointers;
    {
       NSArray *values = [[p stringValue] 
          componentsSeparatedByString:@" "];
-
+      
       for(NSString *value in values)
       {
          GLushort indexValue = (GLushort)[value intValue];
@@ -356,7 +375,7 @@ COLLADAVertexAttributePointers;
       [polylist attributeForName:@"material"];   
    NSString *materialIDString = [materialIDNode objectValue];
    newTriangleInfo.materialID = materialIDString;
-   newTriangleInfo.vertexOffset = 0;
+   newTriangleInfo.positionOffset = 0;
    newTriangleInfo.normalOffset = 0;
    newTriangleInfo.texCoordOffset = 0;
    
@@ -391,7 +410,7 @@ COLLADAVertexAttributePointers;
       else if([@"VERTEX" isEqualToString:semanticString])
       {
          newTriangleInfo.vertexSourceID = sourceIDString;
-         newTriangleInfo.vertexOffset = 
+         newTriangleInfo.positionOffset = 
             [offsetString integerValue];
       }
       else
@@ -635,7 +654,7 @@ COLLADAVertexAttributePointers;
       
    for(NSUInteger i = 0; i < numberOfIndexGroups; i++)
    {  // for each index group
-      COLLADAIndexGroup indexGroup = 
+      COLLADAIndexGroup indexGroup =
          [trianglesInfo indexGroupAtIndex:i];
    
       // Append corresponding vertex attributes
@@ -728,20 +747,24 @@ COLLADAVertexAttributePointers;
 
 - (NSUInteger)numberOfIndexGroups;
 {
-   NSAssert(0 < self.numberOfSources, @"No sources for index groups");
-   return [self.indices length] / (self.numberOfSources * sizeof(GLushort));
+   NSAssert(0 < self.indexStridePerVertex, @"No sources for index groups");
+   return [self.indices length] / (self.indexStridePerVertex * sizeof(GLushort));
 }
 
 
 - (COLLADAIndexGroup)indexGroupAtIndex:(NSUInteger)anIndex;
 {
-   NSAssert(anIndex < [self numberOfIndexGroups], 
+   NSAssert(anIndex < [self numberOfIndexGroups],
       @"Index out of range");
    GLushort *indexPtr = (GLushort *)[self.indices bytes];
-   indexPtr += (anIndex * self.numberOfSources);
+   indexPtr += (anIndex * self.indexStridePerVertex);
+//   indexPtr += (anIndex * (maxOffset + 1));
+   NSAssert(self.indices.length >
+      (sizeof(GLushort) * (anIndex * self.indexStridePerVertex)),
+      @"Pointer out of range");
    
    COLLADAIndexGroup result;
-   result.positionIndex = indexPtr[self.vertexOffset];
+   result.positionIndex = indexPtr[self.positionOffset];
    result.normalIndex = indexPtr[self.normalOffset];
    result.texCoord0Index = indexPtr[self.texCoordOffset];
    result.texCoord1Index = 0;
