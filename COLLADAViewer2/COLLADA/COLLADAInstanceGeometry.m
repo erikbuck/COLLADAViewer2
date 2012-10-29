@@ -41,7 +41,7 @@
    
    if(nil == referencedMaterial)
    {
-      NSLog(@"instance_geometry references unknown material");
+      //NSLog(@"instance_geometry references unknown material");
    }
    else
    {
