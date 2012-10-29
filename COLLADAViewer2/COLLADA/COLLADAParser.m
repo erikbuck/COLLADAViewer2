@@ -48,7 +48,7 @@ static const float COLLADAParserMetersPerInch = 0.0254f;
    NSArray *upAxisElements = 
    [element elementsForName:@"up_axis"];
    NSString *elementValue = 
-   [[upAxisElements lastObject] stringValue];
+   [[upAxisElements lastObject] trimmedStringValue];
    
    if([@"X_UP" isEqualToString:elementValue])
    {  // Rotate 90 deg about Z
@@ -172,7 +172,7 @@ static const float COLLADAParserMetersPerInch = 0.0254f;
       }
       
       NSXMLElement *pathElement = [pathElements lastObject];
-      NSString *path = [pathElement stringValue];
+      NSString *path = [pathElement trimmedStringValue];
       
       if(nil == path || nil == imageID)
       {
@@ -313,7 +313,7 @@ static const float COLLADAParserMetersPerInch = 0.0254f;
    {
       if([subElement.name isEqualToString:@"translate"])
       {
-         NSString *arguments = [subElement stringValue];
+         NSString *arguments = [subElement trimmedStringValue];
          NSArray *separateArgumnts = 
          [arguments componentsSeparatedByString:@" "];
          if(3 != [separateArgumnts count])
@@ -338,7 +338,7 @@ static const float COLLADAParserMetersPerInch = 0.0254f;
       }
       else if([subElement.name isEqualToString:@"rotate"])
       {
-         NSString *arguments = [subElement stringValue];
+         NSString *arguments = [subElement trimmedStringValue];
          NSArray *separateArgumnts = 
          [arguments componentsSeparatedByString:@" "];
          if(4 != [separateArgumnts count])
@@ -367,7 +367,7 @@ static const float COLLADAParserMetersPerInch = 0.0254f;
       }
       else if([subElement.name isEqualToString:@"scale"])
       {
-         NSString *arguments = [subElement stringValue];
+         NSString *arguments = [subElement trimmedStringValue];
          NSArray *separateArgumnts = 
          [arguments componentsSeparatedByString:@" "];
          if(3 != [separateArgumnts count])
@@ -393,7 +393,7 @@ static const float COLLADAParserMetersPerInch = 0.0254f;
       }
       else if([subElement.name isEqualToString:@"matrix"])
       {
-         NSString *arguments = [subElement stringValue];
+         NSString *arguments = [subElement trimmedStringValue];
          NSArray *separateArgumnts = 
          [arguments componentsSeparatedByString:@" "];
          if(16 != [separateArgumnts count])
