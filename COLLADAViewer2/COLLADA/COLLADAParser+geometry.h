@@ -17,3 +17,10 @@
    (NSXMLElement *)element;
 
 @end
+
+
+@interface NSXMLNode (COLLADAParser)
+
+- (NSString *)trimmedStringValue;
+
+@end

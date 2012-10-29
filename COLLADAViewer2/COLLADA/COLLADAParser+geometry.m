@@ -153,7 +153,7 @@ COLLADAVertexAttributePointers;
    // element changed to <float_array>
    element = [floatArrays lastObject];
    
-   NSArray *values = [[element stringValue] 
+   NSArray *values = [[element trimmedStringValue]
       componentsSeparatedByString:@" "];
    NSMutableData *floatData = [NSMutableData data];
       
@@ -346,7 +346,7 @@ COLLADAVertexAttributePointers;
    NSArray *indices = [triangle elementsForName:@"p"];
    for(NSXMLElement *p in indices)
    {
-      NSArray *values = [[p stringValue] 
+      NSArray *values = [[p trimmedStringValue]
          componentsSeparatedByString:@" "];
       
       for(NSString *value in values)
@@ -363,7 +363,7 @@ COLLADAVertexAttributePointers;
 
 
 /////////////////////////////////////////////////////////////////
-// Only 3 sides polygons are supported so polylist is synonomous
+// Only 3 sided polygons are supported so polylist is synonomous
 // with triangles (hopefully!)
 - (COLLADATrianglesInfo *)extractPolylistInfoFromElement:
    (NSXMLElement *)polylist;
@@ -425,7 +425,7 @@ COLLADAVertexAttributePointers;
    NSArray *indices = [polylist elementsForName:@"p"];
    for(NSXMLElement *p in indices)
    {
-      NSArray *values = [[p stringValue] 
+      NSArray *values = [[p trimmedStringValue] 
          componentsSeparatedByString:@" "];
 
       for(NSString *value in values)
@@ -473,6 +473,7 @@ COLLADAVertexAttributePointers;
       NSArray *vertices = [mesh elementsForName:@"vertices"];
       NSArray *triangles = [mesh elementsForName:@"triangles"];
       NSArray *polylists = [mesh elementsForName:@"polylist"];
+      NSArray *polygons = [mesh elementsForName:@"polygons"];
       NSArray *lines = [mesh elementsForName:@"lines"];
       NSMutableDictionary *mutableSourcesByID =
          [NSMutableDictionary dictionary];
@@ -535,13 +536,29 @@ COLLADAVertexAttributePointers;
                vertices:mutableVertexInfoByID];
          }
       }
+      else if(nil != polygons && 0 < [polygons count])
+      {
+         // Parse each <polygons> element
+         for(NSXMLElement *polygon in polygons)
+         { // polygon is <p>
+            meshTrianglesInfo = 
+               [self extractTrianglesInfoFromElement:polygon];
+            NSAssert(nil != meshTrianglesInfo,
+               @"Invalid <triangles>");
+            
+            [meshGeometry appendTriangles:meshTrianglesInfo
+               sources:mutableSourcesByID
+               vertices:mutableVertexInfoByID];
+         }
+      }
       else if(nil != lines && 0 < [lines count])
       { // Lines currently ignored
 //         NSLog(@"Geometry <lines> ignored");
       }
       else
       {
-         NSLog(@"Mesh has niether <triangles> nor <polylist>");
+         NSLog(@"Mesh has none of %@",
+            @"<triangles>, <polylist>, <polygons>, or <lines>");
       }      
    } // <mesh>
    
@@ -786,5 +803,20 @@ COLLADAVertexAttributePointers;
 //  
 @implementation COLLADASourceInfo
 
+
+@end
+
+
+/////////////////////////////////////////////////////////////////
+//  
+@implementation NSXMLNode (COLLADAParser)
+
+/////////////////////////////////////////////////////////////////
+//  
+- (NSString *)trimmedStringValue;
+{
+   return [[self stringValue] stringByTrimmingCharactersInSet:
+      [NSCharacterSet whitespaceAndNewlineCharacterSet]];
+}
 
 @end
