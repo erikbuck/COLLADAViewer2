@@ -1,1 +1,3 @@
-This project is superseded by Apple's SceneKit available in OS X Lion and iOS 6.1. SceneKit has many more features, a sample application that provides a full featured viewer, and built is support for viewing and editing in Xcode..
+This project is superseded by Apple's SceneKit available in OS X Lion and rumored to be available in some future release of iOS. SceneKit has many more features and better reliability. Apple provides a sample application that implements a full featured viewer. Xcode has built-in support for viewing and editing COLLADA scenes.
+
+If you need to work with iOS prior to availability of SceneKit for iOS, COLLADAViewer2 may still be a good option.
