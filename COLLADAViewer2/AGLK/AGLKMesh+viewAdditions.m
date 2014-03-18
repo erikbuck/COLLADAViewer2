@@ -263,13 +263,11 @@
       AGLKMeshVertex *vertexAttributes = (AGLKMeshVertex *)
          [self.vertexData bytes];
                
-      glDisable(GL_LIGHTING);
       glDisable(GL_TEXTURE_2D);
-      glColor4f(1.0f, 1.0f, 0.0f, 1.0f);
       
-      glDisableClientState(GL_VERTEX_ARRAY);                 
-      glDisableClientState(GL_NORMAL_ARRAY); 
-      glDisableClientState(GL_TEXTURE_COORD_ARRAY);
+      glDisableVertexAttribArray(GLKVertexAttribPosition);
+      glDisableVertexAttribArray(GLKVertexAttribNormal);
+      glDisableVertexAttribArray(GLKVertexAttribTexCoord0);
       
       for(NSUInteger i = aRange.location; 
          i <= lastCommandIndex; i++)
@@ -299,8 +297,9 @@
             vertexBuffer[5] = vertexBuffer[2] + 
                (lineLength * currentVertex.normal.z);
             
-            glEnableClientState(GL_VERTEX_ARRAY);                 
-            glVertexPointer(3, 
+            glEnableVertexAttribArray(GLKVertexAttribPosition);
+            glVertexAttribIPointer(GLKVertexAttribPosition,
+               3 * sizeof(GLfloat),
                GL_FLOAT, 
                3 * sizeof(GLfloat), 
                vertexBuffer);

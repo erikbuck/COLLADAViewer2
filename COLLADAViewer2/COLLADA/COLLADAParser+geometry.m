@@ -10,6 +10,7 @@
 #import "COLLADAMeshGeometry.h"
 #import "COLLADARoot.h"
 #import "AGLKMesh.h"
+#import <OpenGL/gl3.h>
 
 
 /////////////////////////////////////////////////////////////////
@@ -681,7 +682,7 @@ COLLADAVertexAttributePointers;
    }
    
    // Add command to draw the triangles just added 
-   [self.mesh appendCommand:GL_TRIANGLES 
+   [self.mesh appendCommand:GL_TRIANGLES
       firstIndex:firstIndex
       numberOfIndices:(mesh.numberOfIndices - firstIndex)
       materialName:trianglesInfo.materialID];

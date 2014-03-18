@@ -7,6 +7,8 @@
 //
 
 #import "AGLKView.h"
+#import <OpenGL/gl.h>
+
 
 @implementation AGLKView
 

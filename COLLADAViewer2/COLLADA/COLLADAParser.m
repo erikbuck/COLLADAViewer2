@@ -213,7 +213,7 @@ static const float COLLADAParserMetersPerInch = 0.0254f;
          }
       }
       
-
+      NSAssert(nil != imageID, @"Invalid imageID");
       [self.root.imagePaths
          setObject:imagePath forKey:imageID];
    }

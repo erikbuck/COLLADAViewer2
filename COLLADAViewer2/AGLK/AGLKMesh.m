@@ -679,8 +679,8 @@ ANoShareTriangle;
          
          // Copy vertices back in original order within vertices array
          const GLsizei numberOfTriangles =
-            [noShareTrianglesData length] /
-               sizeof(ANoShareTriangle);
+            (GLsizei)([noShareTrianglesData length] /
+               sizeof(ANoShareTriangle));
          const ANoShareTriangle *triangles =
             (ANoShareTriangle *)[noShareTrianglesData bytes];
          
