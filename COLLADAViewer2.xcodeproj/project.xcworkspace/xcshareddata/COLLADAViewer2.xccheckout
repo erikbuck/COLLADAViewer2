@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>IDESourceControlProjectFavoriteDictionaryKey</key>
+	<false/>
+	<key>IDESourceControlProjectIdentifier</key>
+	<string>0882F5BE-20A7-456D-B4F5-D85A21DB94D0</string>
+	<key>IDESourceControlProjectName</key>
+	<string>COLLADAViewer2</string>
+	<key>IDESourceControlProjectOriginsDictionary</key>
+	<dict>
+		<key>92D8D4B5-5DC0-44D9-B83C-1A3005F8E7CF</key>
+		<string>https://github.com/erikbuck/COLLADAViewer2.git</string>
+	</dict>
+	<key>IDESourceControlProjectPath</key>
+	<string>COLLADAViewer2.xcodeproj/project.xcworkspace</string>
+	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
+	<dict>
+		<key>92D8D4B5-5DC0-44D9-B83C-1A3005F8E7CF</key>
+		<string>../..</string>
+	</dict>
+	<key>IDESourceControlProjectURL</key>
+	<string>https://github.com/erikbuck/COLLADAViewer2.git</string>
+	<key>IDESourceControlProjectVersion</key>
+	<integer>110</integer>
+	<key>IDESourceControlProjectWCCIdentifier</key>
+	<string>92D8D4B5-5DC0-44D9-B83C-1A3005F8E7CF</string>
+	<key>IDESourceControlProjectWCConfigurations</key>
+	<array>
+		<dict>
+			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
+			<string>public.vcs.git</string>
+			<key>IDESourceControlWCCIdentifierKey</key>
+			<string>92D8D4B5-5DC0-44D9-B83C-1A3005F8E7CF</string>
+			<key>IDESourceControlWCCName</key>
+			<string>COLLADAViewer2</string>
+		</dict>
+	</array>
+</dict>
+</plist>
