@@ -10,29 +10,29 @@
 	<string>COLLADAViewer2</string>
 	<key>IDESourceControlProjectOriginsDictionary</key>
 	<dict>
-		<key>92D8D4B5-5DC0-44D9-B83C-1A3005F8E7CF</key>
+		<key>F6839C7856C58B9F6C97C666AB99A54FA093FDA1</key>
 		<string>https://github.com/erikbuck/COLLADAViewer2.git</string>
 	</dict>
 	<key>IDESourceControlProjectPath</key>
-	<string>COLLADAViewer2.xcodeproj/project.xcworkspace</string>
+	<string>COLLADAViewer2.xcodeproj</string>
 	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
 	<dict>
-		<key>92D8D4B5-5DC0-44D9-B83C-1A3005F8E7CF</key>
+		<key>F6839C7856C58B9F6C97C666AB99A54FA093FDA1</key>
 		<string>../..</string>
 	</dict>
 	<key>IDESourceControlProjectURL</key>
 	<string>https://github.com/erikbuck/COLLADAViewer2.git</string>
 	<key>IDESourceControlProjectVersion</key>
-	<integer>110</integer>
+	<integer>111</integer>
 	<key>IDESourceControlProjectWCCIdentifier</key>
-	<string>92D8D4B5-5DC0-44D9-B83C-1A3005F8E7CF</string>
+	<string>F6839C7856C58B9F6C97C666AB99A54FA093FDA1</string>
 	<key>IDESourceControlProjectWCConfigurations</key>
 	<array>
 		<dict>
 			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
 			<string>public.vcs.git</string>
 			<key>IDESourceControlWCCIdentifierKey</key>
-			<string>92D8D4B5-5DC0-44D9-B83C-1A3005F8E7CF</string>
+			<string>F6839C7856C58B9F6C97C666AB99A54FA093FDA1</string>
 			<key>IDESourceControlWCCName</key>
 			<string>COLLADAViewer2</string>
 		</dict>
